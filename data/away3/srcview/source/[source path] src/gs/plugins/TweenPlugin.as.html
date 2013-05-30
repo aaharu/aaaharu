@@ -1,0 +1,223 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>TweenPlugin.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+VERSION: 1.03
+DATE: 1/13/2009
+ACTIONSCRIPT VERSION: 3.0 (AS2 version is also available)
+UPDATES &amp; MORE DETAILED DOCUMENTATION AT: http://www.TweenMax.com
+DESCRIPTION:
+    TweenPlugin is the base class for all TweenLite/TweenMax plugins. 
+    
+USAGE:
+    To create your own plugin, extend TweenPlugin and override whichever methods you need. Typically,
+    you only need to override onInitTween() and the changeFactor setter. There are a few key concepts 
+    to keep in mind:
+    
+        - In the constructor, set this.propName to whatever special property you want your plugin to handle. 
+        
+        - When a tween that uses your plugin initializes its tween values (normally when it starts), a new instance 
+          of your plugin will be created and the onInitTween() method will be called. That&apos;s where you&apos;ll want to 
+          store any initial values and prepare for the tween. onInitTween() should return a Boolean value that 
+          essentially indicates whether or not the plugin initted successfully. If you return false, TweenLite/Max 
+          will just use a normal tween for the value, ignoring the plugin for that particular tween.
+          
+        - The changeFactor setter will be updated on every frame during the course of the tween with a multiplier
+          that describes the amount of change based on how far along the tween is and the ease applied. It will be 
+          zero at the beginning of the tween and 1 at the end, but inbetween it could be any value based on the 
+          ease applied (for example, an Elastic.easeOut tween would cause the value to shoot past 1 and back again before 
+          the end of the tween). So if the tween uses the Linear.easeNone easing equation, when it&apos;s halfway finished,
+          the changeFactor will be 0.5. 
+          
+        - The overwriteProps is an Array that should contain the properties that your plugin should overwrite
+          when OverwriteManager&apos;s mode is AUTO and a tween of the same object is created. For example, the 
+          autoAlpha plugin controls the &quot;visible&quot; and &quot;alpha&quot; properties of an object, so if another tween 
+          is created that controls the alpha of the target object, your plugin&apos;s killProps() will be called 
+          which should handle killing the &quot;alpha&quot; part of the tween. It is your responsibility to populate
+          (and depopulate) the overwriteProps Array. Failure to do so properly can cause odd overwriting behavior.
+          
+        - Note that there&apos;s a &quot;round&quot; property that indicates whether or not values in your plugin should be
+          rounded to the nearest integer (compatible with TweenMax only). If you use the _tweens Array, populating
+          it through the addTween() method, rounding will happen automatically (if necessary) in the 
+          updateTweens() method, but if you don&apos;t use addTween() and prefer to manually calculate tween values
+          in your changeFactor setter, just remember to accommodate the &quot;round&quot; flag if it makes sense in your plugin.
+          
+        - If you need to run a block of code when the tween has finished, point the onComplete property to a
+          method you created inside your plugin.
+        
+        - Please use the same naming convention as the rest of the plugins, like MySpecialPropertyNamePlugin.
+        
+        - IMPORTANT: The plugin framework is brand new, so there is a chance that it will change slightly over time and 
+          you may need to adjust your custom plugins if the framework changes. I&apos;ll try to minimize the changes,
+          but I&apos;d highly recommend getting a membership to Club GreenSock to make sure you get update notifications.
+          See http://blog.greensock.com/club/ for details.
+          
+    
+BYTES ADDED TO SWF: 560 (0.5kb)
+
+AUTHOR: Jack Doyle, jack@greensock.com
+Copyright 2009, GreenSock. All rights reserved. This work is subject to the terms in http://www.greensock.com/terms_of_use.html or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
+*/</span>
+
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">plugins</span> <span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptDefault_Text">tween</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">TweenPlugin</span> <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VERSION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.03;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">API</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.0; <span class="ActionScriptComment">//If the API/Framework for plugins changes in the future, this number helps determine compatibility
+</span>        
+        <span class="ActionScriptASDoc">/**
+         * Name of the special property that the plugin should intercept/handle 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">propName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Array containing the names of the properties that should be overwritten in OverwriteManager&apos;s 
+         * AUTO mode. Typically the only value in this Array is the propName, but there are cases when it may 
+         * be different. For example, a bezier tween&apos;s propName is &quot;bezier&quot; but it can manage many different properties 
+         * like x, y, etc. depending on what&apos;s passed in to the tween.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">overwriteProps</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * If the values should be rounded to the nearest integer, set this to true. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">round</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Called when the tween is complete.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">onComplete</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span>;
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_tweens</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[]</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_changeFactor</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0;
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">TweenPlugin</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">//constructor
+</span>        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Gets called when any tween of the special property begins. Store any initial values
+         * and/or variables that will be used in the &quot;changeFactor&quot; setter when this method runs. 
+         * 
+         * @param $target target object of the TweenLite instance using this plugin
+         * @param $value The value that is passed in through the special property in the tween. 
+         * @param $tween The TweenLite or TweenMax instance using this plugin.
+         * @return If the initialization failed, it returns false. Otherwise true. It may fail if, for example, the plugin requires that the target be a DisplayObject or has some other unmet criteria in which case the plugin is skipped and a normal property tween is used inside TweenLite
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onInitTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>, <span class="ActionScriptDefault_Text">$value</span><span class="ActionScriptOperator">:*</span>, <span class="ActionScriptDefault_Text">$tween</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TweenLite</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">addTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span>, <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propName</span>, <span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propName</span><span class="ActionScriptBracket/Brace">]</span>, <span class="ActionScriptDefault_Text">$value</span>, <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propName</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Offers a simple way to add tweening values to the plugin. You don&apos;t need to use this,
+         * but it is convenient because the tweens get updated in the updateTweens() method which also 
+         * handles rounding. killProps() nicely integrates with most tweens added via addTween() as well,
+         * but if you prefer to handle this manually in your plugin, you&apos;re welcome to.
+         *  
+         * @param $object target object whose property you&apos;d like to tween. (i.e. myClip)
+         * @param $propName the property name that should be tweened. (i.e. &quot;x&quot;)
+         * @param $start starting value
+         * @param $end end value (can be either numeric or a string value. If it&apos;s a string, it will be interpreted as relative to the starting value)
+         * @param $overwriteProp name of the property that should be associated with the tween for overwriting purposes. Normally, it&apos;s the same as $propName, but not always. For example, you may tween the &quot;changeFactor&quot; property of a VisiblePlugin, but the property that it&apos;s actually controling in the end is &quot;visible&quot;, so if a new overlapping tween of the target object is created that affects its &quot;visible&quot; property, this allows the plugin to kill the appropriate tween(s) when killProps() is called. 
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$object</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>, <span class="ActionScriptDefault_Text">$propName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">$start</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">$end</span><span class="ActionScriptOperator">:*</span>, <span class="ActionScriptDefault_Text">$overwriteProp</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$end</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">change</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">typeof</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$end</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&quot;number&quot;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">?</span> <span class="ActionScriptDefault_Text">$end</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">$start</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$end</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">change</span> <span class="ActionScriptOperator">!=</span> 0<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptComment">//don&apos;t tween values that aren&apos;t changing! It&apos;s a waste of CPU cycles
+</span>                    <span class="ActionScriptDefault_Text">_tweens</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">_tweens</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TweenInfo</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$object</span>, <span class="ActionScriptDefault_Text">$propName</span>, <span class="ActionScriptDefault_Text">$start</span>, <span class="ActionScriptDefault_Text">change</span>, <span class="ActionScriptDefault_Text">$overwriteProp</span> <span class="ActionScriptOperator">||</span> <span class="ActionScriptDefault_Text">$propName</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Updates all the tweens in the _tweens Array. 
+         *  
+         * @param $changeFactor Multiplier describing the amount of change that should be applied. It will be zero at the beginning of the tween and 1 at the end, but inbetween it could be any value based on the ease applied (for example, an Elastic tween would cause the value to shoot past 1 and back again before the end of the tween) 
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">updateTweens</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$changeFactor</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>, <span class="ActionScriptDefault_Text">ti</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TweenInfo</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">val</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">neg</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_tweens</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">ti</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_tweens</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptDefault_Text">val</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">change</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">$changeFactor</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">neg</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span> <span class="ActionScriptOperator">&lt;</span> 0<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">?</span> <span class="ActionScriptOperator">-</span>1 <span class="ActionScriptOperator">:</span> 1;
+                    <span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">target</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">property</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">((</span><span class="ActionScriptDefault_Text">val</span> <span class="ActionScriptOperator">%</span> 1<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">neg</span> <span class="ActionScriptOperator">&gt;</span> 0.5<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">?</span> <span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">neg</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">//twice as fast as Math.round()
+</span>                <span class="ActionScriptBracket/Brace">}</span>
+                
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_tweens</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">ti</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_tweens</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">target</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">property</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ti</span>.<span class="ActionScriptDefault_Text">change</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">$changeFactor</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * In most cases, your custom updating code should go here. The changeFactor value describes the amount 
+         * of change based on how far along the tween is and the ease applied. It will be zero at the beginning
+         * of the tween and 1 at the end, but inbetween it could be any value based on the ease applied (for example, 
+         * an Elastic tween would cause the value to shoot past 1 and back again before the end of the tween) 
+         * This value gets updated on every frame during the course of the tween.
+         * 
+         * @param $n Multiplier describing the amount of change that should be applied. It will be zero at the beginning of the tween and 1 at the end, but inbetween it could be any value based on the ease applied (for example, an Elastic tween would cause the value to shoot past 1 and back again before the end of the tween) 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">changeFactor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">updateTweens</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">_changeFactor</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$n</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">changeFactor</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_changeFactor</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Gets called on plugins that have multiple overwritable properties by OverwriteManager when 
+         * in AUTO mode. Basically, it instructs the plugin to overwrite certain properties. For example,
+         * if a bezier tween is affecting x, y, and width, and then a new tween is created while the 
+         * bezier tween is in progress, and the new tween affects the &quot;x&quot; property, we need a way
+         * to kill just the &quot;x&quot; part of the bezier tween. 
+         * 
+         * @param $lookup An object containing properties that should be overwritten. We don&apos;t pass in an Array because looking up properties on the object is usually faster because it gives us random access. So to overwrite the &quot;x&quot; and &quot;y&quot; properties, a {x:true, y:true} object would be passed in. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">killProps</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span>.<span class="ActionScriptDefault_Text">splice</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span>, 1<span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_tweens</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_tweens</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">_tweens</span>.<span class="ActionScriptDefault_Text">splice</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span>, 1<span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Handles integrating the plugin into the GreenSock tweening platform. 
+         * 
+         * @param $plugin An Array of Plugin classes (that all extend TweenPlugin) to be activated. For example, TweenPlugin.activate([FrameLabelPlugin, ShortRotationPlugin, TintPlugin]);
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">activate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$plugins</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>, <span class="ActionScriptDefault_Text">instance</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>;
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$plugins</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">$plugins</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]()</span>;
+                <span class="ActionScriptDefault_Text">TweenLite</span>.<span class="ActionScriptDefault_Text">plugins</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">instance</span>.<span class="ActionScriptDefault_Text">propName</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$plugins</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,48 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ILayerMaterial.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">draw</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptASDoc">/**
+    * Interface for materials that can be layered using &lt;code&gt;CompositeMaterial&lt;/code&gt; or &lt;code&gt;BitmapMaterialContainer&lt;/code&gt;.
+    * 
+    * @see away3d.materials.CompositeMaterial
+    * @see away3d.materials.BitmapMaterialContainer
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">ILayerMaterial</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">IMaterial</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Renders a bitmapData surface object for the speficied face.
+         * 
+         * @param    face            The face object onto which the rendered sufrace is applied.
+         * @param    containerRect    The rectangle object defining the bounds of the face in uv-space.
+         * @param    parentFaceMaterialVO    The value object of the preceeding surface.
+         * 
+         * @see away3d.materials.BitmapMaterailContainer
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderBitmapLayer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span>, <span class="ActionScriptDefault_Text">containerRect</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Rectangle</span>, <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Renders a material layer for the specified triangle.
+        * 
+         * @param    tri                The drawtriangle used for render information.
+         * @param    layer            The parent layer into which the triangle is drawn.
+         * @param    parentFaceMaterialVO    Defines the sprite level for the layer.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderLayer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span>, <span class="ActionScriptDefault_Text">layer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Sprite</span>, <span class="ActionScriptDefault_Text">level</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

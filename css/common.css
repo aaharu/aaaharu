@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+*{
+	margin: 0;
+}
+
+html{
+	background-color: #000;
+}
+
+body{
+	margin: 0;
+	line-height: 1.5;
+	height: 100%;
+}
+
+/*#canvas{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}*/
+
+#wrapper{
+	padding: 10px;
+	background-color: #fff;
+}
+
+#title h1{
+	font-size: 3em;
+	font-family: 'Monofett', arial, serif;
+	font-weight: bold;
+	/*text-shadow: 1px 1px 2px #000;*/
+}
+
+h1 a, h1 a:visited, h1 a:link, h1 a:hover, h1 a:active {
+	color: #000;
+	text-decoration: none;
+}
+
+#title h2{
+	text-transform: capitalize;
+}
+
+footer{
+	clear: both;
+	margin-top: 20px;
+	color: #fff;
+	width: 100%;
+	height: 60px;
+	text-align: center;
+}
+
+/*#copyright{
+	position: absolute;
+}*/

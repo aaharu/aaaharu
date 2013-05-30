@@ -1,0 +1,185 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ColorMaterial.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">arcane</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">draw</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">render</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">use</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptDefault_Text">arcane</span>;
+    
+    <span class="ActionScriptASDoc">/**
+    * Material for solid color drawing
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ColorMaterial</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">EventDispatcher</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span>, <span class="ActionScriptDefault_Text">IFogMaterial</span>, <span class="ActionScriptDefault_Text">IBillboardMaterial</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_id</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyMaterialUpdate</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">hasEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span><span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_materialupdated</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">_materialupdated</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MaterialEvent</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            <span class="ActionScriptDefault_Text">dispatchEvent</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_materialupdated</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_color</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_alpha</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_materialDirty</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_materialupdated</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MaterialEvent</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Instance of the Init object used to hold and parse default property values
+        * specified by the initialiser object in the 3d object constructor.
+        */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ini</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Init</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * 24 bit color value representing the material color
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">color</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_color</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">val</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptDefault_Text">_color</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">val</span>;
+            
+            <span class="ActionScriptDefault_Text">_materialDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">color</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_color</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">alpha</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_alpha</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">val</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptDefault_Text">_alpha</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">val</span>;
+            
+            <span class="ActionScriptDefault_Text">_materialDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">alpha</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_alpha</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">visible</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">alpha</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+                
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">id</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_id</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Creates a new &lt;code&gt;ColorMaterial&lt;/code&gt; object.
+         * 
+         * @param    color                A string, hex value or colorname representing the color of the material.
+         * @param    init    [optional]    An initialisation object for specifying default instance properties.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ColorMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">color</span><span class="ActionScriptOperator">:*</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">init</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;random&quot;</span>;
+
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Cast</span>.<span class="ActionScriptDefault_Text">trycolor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">color</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">ini</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Init</span>.<span class="ActionScriptDefault_Text">parse</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">init</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">_alpha</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ini</span>.<span class="ActionScriptDefault_Text">getNumber</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;alpha&quot;</span>, 1, <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">min</span><span class="ActionScriptOperator">:</span>0, <span class="ActionScriptDefault_Text">max</span><span class="ActionScriptOperator">:</span>1<span class="ActionScriptBracket/Brace">})</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">updateMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">source</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object3D</span>, <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">View3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_materialDirty</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">_materialDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                <span class="ActionScriptDefault_Text">notifyMaterialUpdate</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderTriangle</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">source</span>.<span class="ActionScriptDefault_Text">session</span>.<span class="ActionScriptDefault_Text">renderTriangleColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_color</span>, <span class="ActionScriptDefault_Text">_alpha</span>, <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">screenVertices</span>, <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">screenCommands</span>, <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">screenIndices</span>, <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">startIndex</span>, <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">endIndex</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderBillboard</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">bill</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawBillboard</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">bill</span>.<span class="ActionScriptDefault_Text">source</span>.<span class="ActionScriptDefault_Text">session</span>.<span class="ActionScriptDefault_Text">renderBillboardColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_color</span>, <span class="ActionScriptDefault_Text">_alpha</span>, <span class="ActionScriptDefault_Text">bill</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderFog</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">fog</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawFog</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">fog</span>.<span class="ActionScriptDefault_Text">source</span>.<span class="ActionScriptDefault_Text">session</span>.<span class="ActionScriptDefault_Text">renderFogColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">fog</span>.<span class="ActionScriptDefault_Text">clip</span>, <span class="ActionScriptDefault_Text">_color</span>, <span class="ActionScriptDefault_Text">_alpha</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">clone</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFogMaterial</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ColorMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_color</span>, <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">alpha</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">_alpha</span><span class="ActionScriptBracket/Brace">})</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addOnMaterialUpdate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptDefault_Text">listener</span>, <span class="ActionScriptReserved">false</span>, 0, <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeOnMaterialUpdate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptDefault_Text">listener</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

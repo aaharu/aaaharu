@@ -1,0 +1,459 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Number3D.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">math</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptASDoc">/**
+    * A point in 3D space.
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">final</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Number3D</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">PI</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mod</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dist</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">num</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vx</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vz</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">m1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * The horizontal coordinate of the 3d number object.
+        */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+    
+        <span class="ActionScriptASDoc">/**
+        * The vertical coordinate of the 3d number object.
+        */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+    
+        <span class="ActionScriptASDoc">/**
+        * The depth coordinate of the 3d number object.
+        */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * The modulo of the 3d number object.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">modulo</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * The squared modulo of the 3d number object.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">modulo2</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Creates a new &lt;code&gt;Number3D&lt;/code&gt; object.
+         *
+         * @param    x    [optional]    A default value for the horizontal coordinate of the 3d number object. Defaults to 0.
+         * @param    y    [optional]    A default value for the vertical coordinate of the 3d number object. Defaults to 0.
+         * @param    z    [optional]    A default value for the depth coordinate of the 3d number object. Defaults to 0.
+         * @param    n    [optional]    Determines of the resulting 3d number object should be normalised. Defaults to false.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0, <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0, <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0, <span class="ActionScriptDefault_Text">n</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">z</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">n</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">normalize</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Compares the 3d number to another and returns a boolean indicating whether
+         * they match or not.
+         * 
+         * @param v The 3d number to compare against.
+         * 
+         * @return Boolean indicating match.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">equals</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">==</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">==</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">==</span><span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Duplicates the 3d number&apos;s properties to another &lt;code&gt;Number3D&lt;/code&gt; object
+         * 
+         * @return    The new 3d number instance with duplicated properties applied
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">clone</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with scaled values from the given 3d number.
+         * 
+         * @param    v    The 3d number object used for the scaling calculation.
+         * @param    s    The scaling value.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">scale</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">s</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">s</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">s</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">s</span>;
+        <span class="ActionScriptBracket/Brace">}</span>  
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with the result from an addition of two 3d numbers.
+         * 
+         * @param    v    The first 3d number in the addition.
+         * @param    w    The second 3d number in the addition.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">add</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with the result from a subtraction of two 3d numbers.
+         * 
+         * @param    v    The starting 3d number in the subtraction.
+         * @param    w    The subtracting 3d number in the subtraction.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">sub</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Calculates the distance from the 3d number object to the given 3d number.
+         * 
+         * @param    w    The 3d number object whose distance is calculated.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">distance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">((</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">))</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Calculates the dot product of the 3d number object with the given 3d number.
+         * 
+         * @param    w    The 3d number object to use in the calculation.
+         * @return        The dot product result.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">dot</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with the result from an cross product of two 3d numbers.
+         * 
+         * @param    v    The first 3d number in the cross product calculation.
+         * @param    w    The second 3d number in the cross product calculation.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cross</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">v</span> <span class="ActionScriptOperator">||</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">w</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;resultant cross product cannot be the same instance as an input&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the angle in radians made between the 3d number obejct and the given 3d number.
+         * 
+         * @param    w    [optional]    The 3d number object to use in the calculation.
+         * @return                    An angle in radians representing the angle between the two 3d number objects. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getAngle</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">w</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">acos</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dot</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">/</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">modulo</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">w</span>.<span class="ActionScriptDefault_Text">modulo</span><span class="ActionScriptBracket/Brace">))</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+        * Normalises the 3d number object.
+        * @param    val    [optional]    A normalisation coefficient representing the length of the resulting 3d number object. Defaults to 1.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">normalize</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1<span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">mod</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">modulo</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">val</span>;
+    
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">mod</span> <span class="ActionScriptOperator">!=</span> 0 <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">mod</span> <span class="ActionScriptOperator">!=</span> 1<span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">/=</span> <span class="ActionScriptDefault_Text">mod</span>;
+                <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">/=</span> <span class="ActionScriptDefault_Text">mod</span>;
+                <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">/=</span> <span class="ActionScriptDefault_Text">mod</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with the result of a 3d matrix rotation performed on a 3d number.
+         * 
+         * @param    v    The 3d number object to use in the calculation.
+         * @param    m    The 3d matrix object representing the rotation.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">rotate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">m</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span>;
+            
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxz</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syz</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szz</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with the result of a 3d matrix tranformation performed on a 3d number.
+         * 
+         * @param    v    The 3d number object to use in the calculation.
+         * @param    m    The 3d matrix object representing the tranformation.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">transform</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">m</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">v</span>.<span class="ActionScriptDefault_Text">z</span>;
+            
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxz</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">tx</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syz</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">ty</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vx</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vy</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">vz</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szz</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">tz</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+                
+        <span class="ActionScriptASDoc">/**
+         * Fill the 3d number object with the euler angles represented by the 3x3 matrix rotation.
+         * 
+         * @param    m    The 3d matrix object to use in the calculation.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">matrix2euler</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">m1</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">m1</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptComment">// Extract the first angle, rotationX
+</span>            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szy</span>, <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szz</span><span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">// rot.x = Math&lt;T&gt;::atan2 (M[1][2], M[2][2]);
+</span>            
+            <span class="ActionScriptComment">// Remove the rotationX rotation from m1, so that the remaining
+</span>            <span class="ActionScriptComment">// rotation, m2 is only around two axes, and gimbal lock cannot occur.
+</span>            <span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">rotationMatrix</span><span class="ActionScriptBracket/Brace">(</span>1, 0, 0,  <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">multiply</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span>, <span class="ActionScriptDefault_Text">m1</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Extract the other two angles, rot.y and rot.z, from m1.
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">sxx</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">sxx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">syx</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">syx</span><span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">// T cy = Math&lt;T&gt;::sqrt (N[0][0]*N[0][0] + N[0][1]*N[0][1]);
+</span>            
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">szx</span>, <span class="ActionScriptDefault_Text">cy</span><span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">// rot.y = Math&lt;T&gt;::atan2 (-N[0][2], cy);
+</span>            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">sxy</span>, <span class="ActionScriptDefault_Text">m1</span>.<span class="ActionScriptDefault_Text">syy</span><span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">//rot.z = Math&lt;T&gt;::atan2 (-N[1][0], N[1][1]);
+</span>            
+            <span class="ActionScriptComment">// Fix angles
+</span>            <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> 1<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+                <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptOperator">-</span>1<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+                <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> 1<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+                <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptOperator">-</span>1<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">MathPI</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+                <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">-=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+                <span class="ActionScriptReserved">else</span>
+                    <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">MathPI</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">quaternion2euler</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">quarternion</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Quaternion</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">test</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">w</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">test</span> <span class="ActionScriptOperator">&gt;</span> 0.499<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptComment">// singularity at north pole
+</span>                <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> 2 <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span>,<span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">w</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">PI</span><span class="ActionScriptOperator">/</span>2;
+                <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> 0;
+                <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">test</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptOperator">-</span>0.499<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptComment">// singularity at south pole
+</span>                <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span>2 <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span>,<span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">w</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">PI</span><span class="ActionScriptOperator">/</span>2;
+                <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> 0;
+                <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sqx</span>    <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sqy</span>    <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">y</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sqz</span>    <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">z</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">z</span>;
+            
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span>2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">w</span> <span class="ActionScriptOperator">-</span> 2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">z</span> , 1 <span class="ActionScriptOperator">-</span> 2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">sqy</span> <span class="ActionScriptOperator">-</span> 2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">sqz</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">asin</span><span class="ActionScriptBracket/Brace">(</span>2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">test</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">atan2</span><span class="ActionScriptBracket/Brace">(</span>2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">-</span>2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">quarternion</span>.<span class="ActionScriptDefault_Text">z</span> , 1 <span class="ActionScriptOperator">-</span> 2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">sqx</span> <span class="ActionScriptOperator">-</span> 2<span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">sqz</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fill the 3d number object with the scale values represented by the 3x3 matrix.
+         * 
+         * @param    m    The 3d matrix object to use in the calculation.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">matrix2scale</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxx</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syx</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syx</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szx</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szx</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxy</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syy</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syy</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szy</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szy</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">sqrt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxz</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">sxz</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syz</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">syz</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szz</span><span class="ActionScriptOperator">*</span><span class="ActionScriptDefault_Text">m</span>.<span class="ActionScriptDefault_Text">szz</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fills the 3d number object with values representing a point between the current and the
+         * 3d number specified in parameter v. The f parameter defines the degree of interpolation 
+         * between the two endpoints, where 0 represents the unmodified current values, and 1.0 
+         * those of the v parameter.
+         * 
+         * @param w The target point.
+         * @param f The level of interpolation between the current 3d number and the parameter v. 
+         * 
+         * @see flash.geom.Point.interpolate()
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">interpolate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">f</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">d</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span>;
+            
+            <span class="ActionScriptDefault_Text">d</span>.<span class="ActionScriptDefault_Text">sub</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span>, <span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">d</span>.<span class="ActionScriptDefault_Text">scale</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">d</span>, <span class="ActionScriptDefault_Text">f</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">add</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>, <span class="ActionScriptDefault_Text">d</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns a 3d number object representing a point between the two 3d number parameters w 
+         * and v. The f parameter defines the degree of interpolation between the two ednpoints, 
+         * where 0 or 1 will return 3d number objects equal to v and w respectively.
+         * 
+         * @param w The target point.
+         * @param v The zero point.
+         * @param f The level of interpolation where 0.0 will return a 3d number object equal to v,
+         * and 1.0 will return a 3d number object equal to w.
+         * 
+         * @see flash.geom.Point.interpolate()
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInterpolated</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">v</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">f</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">d</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span>;
+            
+            <span class="ActionScriptDefault_Text">d</span>.<span class="ActionScriptDefault_Text">sub</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">w</span>, <span class="ActionScriptDefault_Text">v</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">d</span>.<span class="ActionScriptDefault_Text">scale</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">d</span>, <span class="ActionScriptDefault_Text">f</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">d</span>.<span class="ActionScriptDefault_Text">add</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">d</span>, <span class="ActionScriptDefault_Text">v</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">d</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction forward.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">FORWARD</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span> 0,  0,  1<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction backward.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">BACKWARD</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span> 0,  0, <span class="ActionScriptOperator">-</span>1<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction left.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">LEFT</span>    <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptOperator">-</span>1,  0,  0<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction right.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">RIGHT</span>   <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span> 1,  0,  0<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction up.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">UP</span>      <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span> 0,  1,  0<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * A 3d number object representing a relative direction down.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">DOWN</span>    <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">(</span> 0, <span class="ActionScriptOperator">-</span>1,  0<span class="ActionScriptBracket/Brace">)</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Calculates a 3d number object representing the closest point on a given plane to a given 3d point.
+        * 
+        * @param    p    The 3d point used in teh calculation.
+        * @param    k    The plane offset used in the calculation.
+        * @param    n    The plane normal used in the calculation.
+        * @return        The resulting 3d point.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">closestPointOnPlane</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">p</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">k</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>, <span class="ActionScriptDefault_Text">n</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">num</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">num</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptDefault_Text">num</span>.<span class="ActionScriptDefault_Text">sub</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">p</span>, <span class="ActionScriptDefault_Text">k</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">dist</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">n</span>.<span class="ActionScriptDefault_Text">dot</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">num</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">num</span>.<span class="ActionScriptDefault_Text">scale</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">n</span>, <span class="ActionScriptDefault_Text">dist</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">num</span>.<span class="ActionScriptDefault_Text">sub</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">p</span>, <span class="ActionScriptDefault_Text">num</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">num</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Used to trace the values of a 3d number.
+         * 
+         * @return A string representation of the 3d number object.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptString">&apos;x:&apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos; y:&apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos; z:&apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

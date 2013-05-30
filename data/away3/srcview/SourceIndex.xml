@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>away3 のソース</title>
+	<nodes>
+		<node label="[source path] src" icon="classpathIcon" expanded="true">
+			<node label="away3d" icon="packageIcon" expanded="true">
+				<node label="arcane.as" icon="actionScriptIcon" url="source/[source path] src/away3d/arcane.as.html"/>
+				<node label="away3d-license.txt" url="source/[source path] src/away3d/away3d-license.txt"/>
+			</node>
+			<node label="away3d.animators" icon="packageIcon" expanded="true">
+				<node label="Animator.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/Animator.as.html"/>
+				<node label="FaceLink.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/FaceLink.as.html"/>
+				<node label="IMeshAnimation.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/IMeshAnimation.as.html"/>
+				<node label="PathAnimator.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/PathAnimator.as.html"/>
+				<node label="SkinAnimation.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/SkinAnimation.as.html"/>
+				<node label="TimeBase.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/TimeBase.as.html"/>
+			</node>
+			<node label="away3d.animators.data" icon="packageIcon" expanded="true">
+				<node label="AnimationFrame.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/data/AnimationFrame.as.html"/>
+				<node label="AnimationGroup.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/data/AnimationGroup.as.html"/>
+				<node label="AnimationSequence.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/data/AnimationSequence.as.html"/>
+				<node label="CurveSegment.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/data/CurveSegment.as.html"/>
+				<node label="Path.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/data/Path.as.html"/>
+			</node>
+			<node label="away3d.animators.skin" icon="packageIcon" expanded="true">
+				<node label="Bone.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/skin/Bone.as.html"/>
+				<node label="Channel.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/skin/Channel.as.html"/>
+				<node label="SkinController.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/skin/SkinController.as.html"/>
+				<node label="SkinVertex.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/skin/SkinVertex.as.html"/>
+			</node>
+			<node label="away3d.animators.utils" icon="packageIcon" expanded="true">
+				<node label="AWTweener.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/utils/AWTweener.as.html"/>
+				<node label="PathUtils.as" icon="actionScriptIcon" url="source/[source path] src/away3d/animators/utils/PathUtils.as.html"/>
+			</node>
+			<node label="away3d.blockers" icon="packageIcon" expanded="true">
+				<node label="ConvexBlock.as" icon="actionScriptIcon" url="source/[source path] src/away3d/blockers/ConvexBlock.as.html"/>
+			</node>
+			<node label="away3d.cameras" icon="packageIcon" expanded="true">
+				<node label="Camera3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/Camera3D.as.html"/>
+				<node label="HoverCamera3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/HoverCamera3D.as.html"/>
+				<node label="SpringCam.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/SpringCam.as.html"/>
+				<node label="TargetCamera3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/TargetCamera3D.as.html"/>
+			</node>
+			<node label="away3d.cameras.lenses" icon="packageIcon" expanded="true">
+				<node label="AbstractLens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/AbstractLens.as.html"/>
+				<node label="ILens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/ILens.as.html"/>
+				<node label="OrthogonalLens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/OrthogonalLens.as.html"/>
+				<node label="PerspectiveLens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/PerspectiveLens.as.html"/>
+				<node label="SphericalLens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/SphericalLens.as.html"/>
+				<node label="ZoomFocusLens.as" icon="actionScriptIcon" url="source/[source path] src/away3d/cameras/lenses/ZoomFocusLens.as.html"/>
+			</node>
+			<node label="away3d.containers" icon="packageIcon" expanded="true">
+				<node label="ILODObject.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/ILODObject.as.html"/>
+				<node label="IPhysicsScene.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/IPhysicsScene.as.html"/>
+				<node label="LODObject.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/LODObject.as.html"/>
+				<node label="ObjectContainer3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/ObjectContainer3D.as.html"/>
+				<node label="Scene3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/Scene3D.as.html"/>
+				<node label="View3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/containers/View3D.as.html"/>
+			</node>
+			<node label="away3d.core.base" icon="packageIcon" expanded="true">
+				<node label="Animation.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Animation.as.html"/>
+				<node label="AnimationTransition.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/AnimationTransition.as.html"/>
+				<node label="Billboard.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Billboard.as.html"/>
+				<node label="DrawingCommand.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/DrawingCommand.as.html"/>
+				<node label="Element.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Element.as.html"/>
+				<node label="Face.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Face.as.html"/>
+				<node label="Frame.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Frame.as.html"/>
+				<node label="Geometry.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Geometry.as.html"/>
+				<node label="Graphics3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Graphics3D.as.html"/>
+				<node label="IAnimation.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/IAnimation.as.html"/>
+				<node label="IFrame.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/IFrame.as.html"/>
+				<node label="Mesh.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Mesh.as.html"/>
+				<node label="Morpher.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Morpher.as.html"/>
+				<node label="Object3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Object3D.as.html"/>
+				<node label="Segment.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Segment.as.html"/>
+				<node label="UV.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/UV.as.html"/>
+				<node label="VectorInstructionType.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/VectorInstructionType.as.html"/>
+				<node label="Vertex.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/Vertex.as.html"/>
+				<node label="VertexClassification.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/VertexClassification.as.html"/>
+				<node label="VertexPosition.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/base/VertexPosition.as.html"/>
+			</node>
+			<node label="away3d.core.block" icon="packageIcon" expanded="true">
+				<node label="Blocker.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/block/Blocker.as.html"/>
+				<node label="BlockerArray.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/block/BlockerArray.as.html"/>
+				<node label="ConvexBlocker.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/block/ConvexBlocker.as.html"/>
+				<node label="IBlockerConsumer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/block/IBlockerConsumer.as.html"/>
+				<node label="IBlockerProvider.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/block/IBlockerProvider.as.html"/>
+			</node>
+			<node label="away3d.core.clip" icon="packageIcon" expanded="true">
+				<node label="Clipping.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/clip/Clipping.as.html"/>
+				<node label="FrustumClipping.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/clip/FrustumClipping.as.html"/>
+				<node label="NearfieldClipping.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/clip/NearfieldClipping.as.html"/>
+				<node label="RectangleClipping.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/clip/RectangleClipping.as.html"/>
+			</node>
+			<node label="away3d.core.draw" icon="packageIcon" expanded="true">
+				<node label="DrawBillboard.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawBillboard.as.html"/>
+				<node label="DrawBitmap.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawBitmap.as.html"/>
+				<node label="DrawDisplayObject.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawDisplayObject.as.html"/>
+				<node label="DrawFog.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawFog.as.html"/>
+				<node label="DrawPrimitive.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawPrimitive.as.html"/>
+				<node label="DrawScaledBitmap.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawScaledBitmap.as.html"/>
+				<node label="DrawSegment.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawSegment.as.html"/>
+				<node label="DrawTriangle.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/DrawTriangle.as.html"/>
+				<node label="IPrimitiveConsumer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/IPrimitiveConsumer.as.html"/>
+				<node label="IPrimitiveProvider.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/IPrimitiveProvider.as.html"/>
+				<node label="PrimitiveQuadrantTreeNode.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/PrimitiveQuadrantTreeNode.as.html"/>
+				<node label="PrimitiveVolumeBlock.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/PrimitiveVolumeBlock.as.html"/>
+				<node label="PrimitiveVolumeBlockNode.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/PrimitiveVolumeBlockNode.as.html"/>
+				<node label="ScreenVertex.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/draw/ScreenVertex.as.html"/>
+			</node>
+			<node label="away3d.core.filter" icon="packageIcon" expanded="true">
+				<node label="AnotherRivalFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/AnotherRivalFilter.as.html"/>
+				<node label="FogFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/FogFilter.as.html"/>
+				<node label="IPrimitiveFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/IPrimitiveFilter.as.html"/>
+				<node label="IPrimitiveQuadrantFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/IPrimitiveQuadrantFilter.as.html"/>
+				<node label="IPrimitiveVolumeBlockFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/IPrimitiveVolumeBlockFilter.as.html"/>
+				<node label="MaxPolyFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/MaxPolyFilter.as.html"/>
+				<node label="QuadrantRiddleFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/QuadrantRiddleFilter.as.html"/>
+				<node label="ZDepthFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/ZDepthFilter.as.html"/>
+				<node label="ZSortFilter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/filter/ZSortFilter.as.html"/>
+			</node>
+			<node label="away3d.core.geom" icon="packageIcon" expanded="true">
+				<node label="Frustum.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/geom/Frustum.as.html"/>
+				<node label="Line2D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/geom/Line2D.as.html"/>
+				<node label="Plane3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/geom/Plane3D.as.html"/>
+			</node>
+			<node label="away3d.core.light" icon="packageIcon" expanded="true">
+				<node label="AmbientLight.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/AmbientLight.as.html"/>
+				<node label="DirectionalLight.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/DirectionalLight.as.html"/>
+				<node label="ILightConsumer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/ILightConsumer.as.html"/>
+				<node label="ILightProvider.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/ILightProvider.as.html"/>
+				<node label="LightArray.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/LightArray.as.html"/>
+				<node label="LightPrimitive.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/LightPrimitive.as.html"/>
+				<node label="PointLight.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/light/PointLight.as.html"/>
+			</node>
+			<node label="away3d.core.math" icon="packageIcon" expanded="true">
+				<node label="MatrixAway3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/math/MatrixAway3D.as.html"/>
+				<node label="Number2D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/math/Number2D.as.html"/>
+				<node label="Number3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/math/Number3D.as.html"/>
+				<node label="Quaternion.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/math/Quaternion.as.html"/>
+			</node>
+			<node label="away3d.core.project" icon="packageIcon" expanded="true">
+				<node label="ConvexBlockProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/ConvexBlockProjector.as.html"/>
+				<node label="DirSpriteProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/DirSpriteProjector.as.html"/>
+				<node label="DofSpriteProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/DofSpriteProjector.as.html"/>
+				<node label="MeshProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/MeshProjector.as.html"/>
+				<node label="MovieClipSpriteProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/MovieClipSpriteProjector.as.html"/>
+				<node label="ObjectContainerProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/ObjectContainerProjector.as.html"/>
+				<node label="ProjectorType.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/ProjectorType.as.html"/>
+				<node label="SpriteProjector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/project/SpriteProjector.as.html"/>
+			</node>
+			<node label="away3d.core.render" icon="packageIcon" expanded="true">
+				<node label="AbstractRenderSession.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/AbstractRenderSession.as.html"/>
+				<node label="BasicRenderer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/BasicRenderer.as.html"/>
+				<node label="BitmapRenderSession.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/BitmapRenderSession.as.html"/>
+				<node label="IRenderer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/IRenderer.as.html"/>
+				<node label="QuadrantRenderer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/QuadrantRenderer.as.html"/>
+				<node label="Renderer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/Renderer.as.html"/>
+				<node label="SpriteRenderSession.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/render/SpriteRenderSession.as.html"/>
+			</node>
+			<node label="away3d.core.stats" icon="packageIcon" expanded="true">
+				<node label="Logo.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/stats/Logo.as.html"/>
+				<node label="StaticTextField.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/stats/StaticTextField.as.html"/>
+				<node label="Stats.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/stats/Stats.as.html"/>
+				<node label="Tasks.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/stats/Tasks.as.html"/>
+			</node>
+			<node label="away3d.core.traverse" icon="packageIcon" expanded="true">
+				<node label="LightTraverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/LightTraverser.as.html"/>
+				<node label="PrimitiveTraverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/PrimitiveTraverser.as.html"/>
+				<node label="ProjectionTraverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/ProjectionTraverser.as.html"/>
+				<node label="SessionTraverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/SessionTraverser.as.html"/>
+				<node label="TickTraverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/TickTraverser.as.html"/>
+				<node label="Traverser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/traverse/Traverser.as.html"/>
+			</node>
+			<node label="away3d.core.utils" icon="packageIcon" expanded="true">
+				<node label="BezierUtils.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/BezierUtils.as.html"/>
+				<node label="BillboardVO.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/BillboardVO.as.html"/>
+				<node label="CacheStore.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/CacheStore.as.html"/>
+				<node label="CameraVarsStore.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/CameraVarsStore.as.html"/>
+				<node label="Cast.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/Cast.as.html"/>
+				<node label="CastError.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/CastError.as.html"/>
+				<node label="Color.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/Color.as.html"/>
+				<node label="Debug.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/Debug.as.html"/>
+				<node label="DofCache.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/DofCache.as.html"/>
+				<node label="DrawPrimitiveStore.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/DrawPrimitiveStore.as.html"/>
+				<node label="FaceDictionaryVO.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/FaceDictionaryVO.as.html"/>
+				<node label="FaceMaterialVO.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/FaceMaterialVO.as.html"/>
+				<node label="FaceVO.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/FaceVO.as.html"/>
+				<node label="IClonable.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/IClonable.as.html"/>
+				<node label="Init.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/Init.as.html"/>
+				<node label="SegmentVO.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/SegmentVO.as.html"/>
+				<node label="ValueObject.as" icon="actionScriptIcon" url="source/[source path] src/away3d/core/utils/ValueObject.as.html"/>
+			</node>
+			<node label="away3d.events" icon="packageIcon" expanded="true">
+				<node label="AnimationEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/AnimationEvent.as.html"/>
+				<node label="BillboardEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/BillboardEvent.as.html"/>
+				<node label="CameraEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/CameraEvent.as.html"/>
+				<node label="ClippingEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/ClippingEvent.as.html"/>
+				<node label="ElementEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/ElementEvent.as.html"/>
+				<node label="GeometryEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/GeometryEvent.as.html"/>
+				<node label="Loader3DEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/Loader3DEvent.as.html"/>
+				<node label="MaterialEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/MaterialEvent.as.html"/>
+				<node label="MouseEvent3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/MouseEvent3D.as.html"/>
+				<node label="Object3DEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/Object3DEvent.as.html"/>
+				<node label="ParserEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/ParserEvent.as.html"/>
+				<node label="PathEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/PathEvent.as.html"/>
+				<node label="SessionEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/SessionEvent.as.html"/>
+				<node label="TraceEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/TraceEvent.as.html"/>
+				<node label="VideoEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/VideoEvent.as.html"/>
+				<node label="ViewEvent.as" icon="actionScriptIcon" url="source/[source path] src/away3d/events/ViewEvent.as.html"/>
+			</node>
+			<node label="away3d.exporters" icon="packageIcon" expanded="true">
+				<node label="AS3Exporter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/exporters/AS3Exporter.as.html"/>
+				<node label="Elevation2AS3.as" icon="actionScriptIcon" url="source/[source path] src/away3d/exporters/Elevation2AS3.as.html"/>
+				<node label="ObjExporter.as" icon="actionScriptIcon" url="source/[source path] src/away3d/exporters/ObjExporter.as.html"/>
+			</node>
+			<node label="away3d.extrusions" icon="packageIcon" expanded="true">
+				<node label="CollisionMap.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/CollisionMap.as.html"/>
+				<node label="Elevation.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/Elevation.as.html"/>
+				<node label="ElevationModifier.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/ElevationModifier.as.html"/>
+				<node label="ElevationReader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/ElevationReader.as.html"/>
+				<node label="Lathe.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/Lathe.as.html"/>
+				<node label="NormalUVModifier.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/NormalUVModifier.as.html"/>
+				<node label="PathDuplicator.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/PathDuplicator.as.html"/>
+				<node label="PathExtrude.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/PathExtrude.as.html"/>
+				<node label="SegmentsExtrude.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/SegmentsExtrude.as.html"/>
+				<node label="SkinExtrude.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/SkinExtrude.as.html"/>
+				<node label="TextExtrude.as" icon="actionScriptIcon" url="source/[source path] src/away3d/extrusions/TextExtrude.as.html"/>
+			</node>
+			<node label="away3d.geom" icon="packageIcon" expanded="true">
+				<node label="Explode.as" icon="actionScriptIcon" url="source/[source path] src/away3d/geom/Explode.as.html"/>
+				<node label="Merge.as" icon="actionScriptIcon" url="source/[source path] src/away3d/geom/Merge.as.html"/>
+				<node label="Mirror.as" icon="actionScriptIcon" url="source/[source path] src/away3d/geom/Mirror.as.html"/>
+				<node label="Replicate.as" icon="actionScriptIcon" url="source/[source path] src/away3d/geom/Replicate.as.html"/>
+				<node label="Weld.as" icon="actionScriptIcon" url="source/[source path] src/away3d/geom/Weld.as.html"/>
+			</node>
+			<node label="away3d.lights" icon="packageIcon" expanded="true">
+				<node label="AmbientLight3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/lights/AmbientLight3D.as.html"/>
+				<node label="DirectionalLight3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/lights/DirectionalLight3D.as.html"/>
+				<node label="PointLight3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/lights/PointLight3D.as.html"/>
+			</node>
+			<node label="away3d.loaders" icon="packageIcon" expanded="true">
+				<node label="AbstractParser.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/AbstractParser.as.html"/>
+				<node label="Ase.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Ase.as.html"/>
+				<node label="Collada.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Collada.as.html"/>
+				<node label="Kmz.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Kmz.as.html"/>
+				<node label="Loader3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Loader3D.as.html"/>
+				<node label="LoaderCube.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/LoaderCube.as.html"/>
+				<node label="Max3DS.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Max3DS.as.html"/>
+				<node label="Md2.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Md2.as.html"/>
+				<node label="Md2still.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Md2still.as.html"/>
+				<node label="Obj.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Obj.as.html"/>
+				<node label="Swf.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/Swf.as.html"/>
+			</node>
+			<node label="away3d.loaders.data" icon="packageIcon" expanded="true">
+				<node label="AnimationData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/AnimationData.as.html"/>
+				<node label="BoneData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/BoneData.as.html"/>
+				<node label="ChannelData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/ChannelData.as.html"/>
+				<node label="ContainerData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/ContainerData.as.html"/>
+				<node label="FaceData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/FaceData.as.html"/>
+				<node label="GeometryData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/GeometryData.as.html"/>
+				<node label="MaterialData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/MaterialData.as.html"/>
+				<node label="MeshData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/MeshData.as.html"/>
+				<node label="MeshMaterialData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/MeshMaterialData.as.html"/>
+				<node label="ObjectData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/data/ObjectData.as.html"/>
+			</node>
+			<node label="away3d.loaders.utils" icon="packageIcon" expanded="true">
+				<node label="AnimationLibrary.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/AnimationLibrary.as.html"/>
+				<node label="ChannelLibrary.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/ChannelLibrary.as.html"/>
+				<node label="GeometryLibrary.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/GeometryLibrary.as.html"/>
+				<node label="MaterialLibrary.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/MaterialLibrary.as.html"/>
+				<node label="TextureLoader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/TextureLoader.as.html"/>
+				<node label="TextureLoadQueue.as" icon="actionScriptIcon" url="source/[source path] src/away3d/loaders/utils/TextureLoadQueue.as.html"/>
+			</node>
+			<node label="away3d.materials" icon="packageIcon" expanded="true">
+				<node label="AnimatedBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/AnimatedBitmapMaterial.as.html"/>
+				<node label="BitmapFileMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/BitmapFileMaterial.as.html"/>
+				<node label="BitmapMaskMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/BitmapMaskMaterial.as.html"/>
+				<node label="BitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/BitmapMaterial.as.html"/>
+				<node label="BitmapMaterialContainer.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/BitmapMaterialContainer.as.html"/>
+				<node label="CenterLightingMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/CenterLightingMaterial.as.html"/>
+				<node label="ColorMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/ColorMaterial.as.html"/>
+				<node label="CompositeMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/CompositeMaterial.as.html"/>
+				<node label="DepthBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/DepthBitmapMaterial.as.html"/>
+				<node label="Dot3BitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/Dot3BitmapMaterial.as.html"/>
+				<node label="Dot3BitmapMaterialCache.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/Dot3BitmapMaterialCache.as.html"/>
+				<node label="Dot3BitmapMaterialF10.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/Dot3BitmapMaterialF10.as.html"/>
+				<node label="Dot3MovieMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/Dot3MovieMaterial.as.html"/>
+				<node label="EnviroBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/EnviroBitmapMaterial.as.html"/>
+				<node label="EnviroBitmapMaterialCache.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/EnviroBitmapMaterialCache.as.html"/>
+				<node label="EnviroColorMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/EnviroColorMaterial.as.html"/>
+				<node label="IBillboardMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/IBillboardMaterial.as.html"/>
+				<node label="IFogMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/IFogMaterial.as.html"/>
+				<node label="ILayerMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/ILayerMaterial.as.html"/>
+				<node label="IMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/IMaterial.as.html"/>
+				<node label="ISegmentMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/ISegmentMaterial.as.html"/>
+				<node label="ITriangleMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/ITriangleMaterial.as.html"/>
+				<node label="IUVMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/IUVMaterial.as.html"/>
+				<node label="MovieMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/MovieMaterial.as.html"/>
+				<node label="PhongBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/PhongBitmapMaterial.as.html"/>
+				<node label="PhongBitmapMaterialCache.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/PhongBitmapMaterialCache.as.html"/>
+				<node label="PhongColorMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/PhongColorMaterial.as.html"/>
+				<node label="PhongColorMaterialCache.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/PhongColorMaterialCache.as.html"/>
+				<node label="PhongMovieMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/PhongMovieMaterial.as.html"/>
+				<node label="ShadingColorMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/ShadingColorMaterial.as.html"/>
+				<node label="TransformBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/TransformBitmapMaterial.as.html"/>
+				<node label="VideoMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/VideoMaterial.as.html"/>
+				<node label="WhiteShadingBitmapMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/WhiteShadingBitmapMaterial.as.html"/>
+				<node label="WireColorMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/WireColorMaterial.as.html"/>
+				<node label="WireframeMaterial.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/WireframeMaterial.as.html"/>
+			</node>
+			<node label="away3d.materials.shaders" icon="packageIcon" expanded="true">
+				<node label="AbstractShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/AbstractShader.as.html"/>
+				<node label="AmbientShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/AmbientShader.as.html"/>
+				<node label="DepthShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/DepthShader.as.html"/>
+				<node label="DiffuseDot3Shader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/DiffuseDot3Shader.as.html"/>
+				<node label="DiffusePhongShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/DiffusePhongShader.as.html"/>
+				<node label="EnviroShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/EnviroShader.as.html"/>
+				<node label="SpecularDot3Shader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/SpecularDot3Shader.as.html"/>
+				<node label="SpecularPhongShader.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/shaders/SpecularPhongShader.as.html"/>
+			</node>
+			<node label="away3d.materials.utils" icon="packageIcon" expanded="true">
+				<node label="HeightMapGenerator.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/HeightMapGenerator.as.html"/>
+				<node label="LightPrebaker.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/LightPrebaker.as.html"/>
+				<node label="NormalBumpMaker.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/NormalBumpMaker.as.html"/>
+				<node label="NormalMapGenerator.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/NormalMapGenerator.as.html"/>
+				<node label="Projector.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/Projector.as.html"/>
+				<node label="SimpleShadow.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/SimpleShadow.as.html"/>
+			</node>
+			<node label="away3d.materials.utils.data" icon="packageIcon" expanded="true">
+				<node label="Grow.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/Grow.as.html"/>
+				<node label="LightData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/LightData.as.html"/>
+				<node label="LScan.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/LScan.as.html"/>
+				<node label="MeshData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/MeshData.as.html"/>
+				<node label="Ray.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/Ray.as.html"/>
+				<node label="RenderData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/materials/utils/data/RenderData.as.html"/>
+			</node>
+			<node label="away3d.overlays" icon="packageIcon" expanded="true">
+				<node label="IOverlay.as" icon="actionScriptIcon" url="source/[source path] src/away3d/overlays/IOverlay.as.html"/>
+				<node label="LensFlare.as" icon="actionScriptIcon" url="source/[source path] src/away3d/overlays/LensFlare.as.html"/>
+			</node>
+			<node label="away3d.pbks">
+				<node label="normalMapping.pbj" url="source/[source path] src/away3d/pbks/normalMapping.pbj"/>
+				<node label="normalMapping.pbk" url="source/[source path] src/away3d/pbks/normalMapping.pbk"/>
+			</node>
+			<node label="away3d.primitives" icon="packageIcon" expanded="true">
+				<node label="AbstractPrimitive.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/AbstractPrimitive.as.html"/>
+				<node label="BezierPatch.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/BezierPatch.as.html"/>
+				<node label="Cone.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Cone.as.html"/>
+				<node label="Cube.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Cube.as.html"/>
+				<node label="Cylinder.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Cylinder.as.html"/>
+				<node label="GeodesicSphere.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/GeodesicSphere.as.html"/>
+				<node label="GridPlane.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/GridPlane.as.html"/>
+				<node label="LineSegment.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/LineSegment.as.html"/>
+				<node label="Plane.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Plane.as.html"/>
+				<node label="ReflectivePlane.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/ReflectivePlane.as.html"/>
+				<node label="RegularPolygon.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/RegularPolygon.as.html"/>
+				<node label="RoundedCube.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/RoundedCube.as.html"/>
+				<node label="SeaTurtle.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/SeaTurtle.as.html"/>
+				<node label="Skybox.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Skybox.as.html"/>
+				<node label="Skybox6.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Skybox6.as.html"/>
+				<node label="Sphere.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Sphere.as.html"/>
+				<node label="TextField3D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/TextField3D.as.html"/>
+				<node label="Torus.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Torus.as.html"/>
+				<node label="Triangle.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Triangle.as.html"/>
+				<node label="Trident.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/Trident.as.html"/>
+				<node label="WireCircle.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireCircle.as.html"/>
+				<node label="WireCone.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireCone.as.html"/>
+				<node label="WireCube.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireCube.as.html"/>
+				<node label="WireCylinder.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireCylinder.as.html"/>
+				<node label="WirePlane.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WirePlane.as.html"/>
+				<node label="WireSphere.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireSphere.as.html"/>
+				<node label="WireTorus.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/WireTorus.as.html"/>
+			</node>
+			<node label="away3d.primitives.data" icon="packageIcon" expanded="true">
+				<node label="CubeMaterialsData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/data/CubeMaterialsData.as.html"/>
+				<node label="PatchData.as" icon="actionScriptIcon" url="source/[source path] src/away3d/primitives/data/PatchData.as.html"/>
+			</node>
+			<node label="away3d.sprites" icon="packageIcon" expanded="true">
+				<node label="DirSprite2D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/sprites/DirSprite2D.as.html"/>
+				<node label="DofSprite2D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/sprites/DofSprite2D.as.html"/>
+				<node label="MovieClipSprite.as" icon="actionScriptIcon" url="source/[source path] src/away3d/sprites/MovieClipSprite.as.html"/>
+				<node label="Sprite2D.as" icon="actionScriptIcon" url="source/[source path] src/away3d/sprites/Sprite2D.as.html"/>
+			</node>
+			<node label="away3d.test" icon="packageIcon" expanded="true">
+				<node label="BaseDemo.as" icon="actionScriptIcon" url="source/[source path] src/away3d/test/BaseDemo.as.html"/>
+				<node label="Button.as" icon="actionScriptIcon" url="source/[source path] src/away3d/test/Button.as.html"/>
+				<node label="Panel.as" icon="actionScriptIcon" url="source/[source path] src/away3d/test/Panel.as.html"/>
+				<node label="SimpleView.as" icon="actionScriptIcon" url="source/[source path] src/away3d/test/SimpleView.as.html"/>
+				<node label="Slide.as" icon="actionScriptIcon" url="source/[source path] src/away3d/test/Slide.as.html"/>
+			</node>
+			<node label="awaybuilder" icon="packageIcon" expanded="true">
+				<node label="CoordinateSystem.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/CoordinateSystem.as.html"/>
+				<node label="SceneBuilder.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/SceneBuilder.as.html"/>
+				<node label="ScenePrecision.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/ScenePrecision.as.html"/>
+				<node label="SceneSource.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/SceneSource.as.html"/>
+				<node label="SceneUpdate.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/SceneUpdate.as.html"/>
+				<node label="WorldBuilder.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/WorldBuilder.as.html"/>
+			</node>
+			<node label="awaybuilder.abstracts" icon="packageIcon" expanded="true">
+				<node label="AbstractBuilder.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/abstracts/AbstractBuilder.as.html"/>
+				<node label="AbstractCameraController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/abstracts/AbstractCameraController.as.html"/>
+				<node label="AbstractGeometryController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/abstracts/AbstractGeometryController.as.html"/>
+				<node label="AbstractParser.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/abstracts/AbstractParser.as.html"/>
+			</node>
+			<node label="awaybuilder.animation" icon="packageIcon" expanded="true">
+				<node label="AnimationController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/animation/AnimationController.as.html"/>
+				<node label="AnimationEvent.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/animation/AnimationEvent.as.html"/>
+				<node label="IAnimationController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/animation/IAnimationController.as.html"/>
+			</node>
+			<node label="awaybuilder.camera" icon="packageIcon" expanded="true">
+				<node label="AnimationControl.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/AnimationControl.as.html"/>
+				<node label="CameraAttributes.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraAttributes.as.html"/>
+				<node label="CameraController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraController.as.html"/>
+				<node label="CameraFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraFactory.as.html"/>
+				<node label="CameraFocus.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraFocus.as.html"/>
+				<node label="CameraPropertyFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraPropertyFactory.as.html"/>
+				<node label="CameraType.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraType.as.html"/>
+				<node label="CameraZoom.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/camera/CameraZoom.as.html"/>
+			</node>
+			<node label="awaybuilder.collada" icon="packageIcon" expanded="true">
+				<node label="ColladaLoader.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/collada/ColladaLoader.as.html"/>
+				<node label="ColladaNode.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/collada/ColladaNode.as.html"/>
+				<node label="ColladaParser.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/collada/ColladaParser.as.html"/>
+				<node label="ColladaUtil.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/collada/ColladaUtil.as.html"/>
+			</node>
+			<node label="awaybuilder.events" icon="packageIcon" expanded="true">
+				<node label="CameraEvent.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/events/CameraEvent.as.html"/>
+				<node label="GeometryEvent.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/events/GeometryEvent.as.html"/>
+				<node label="SceneEvent.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/events/SceneEvent.as.html"/>
+				<node label="WorldBuilderEvent.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/events/WorldBuilderEvent.as.html"/>
+			</node>
+			<node label="awaybuilder.geometry" icon="packageIcon" expanded="true">
+				<node label="GeometryAttributes.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/geometry/GeometryAttributes.as.html"/>
+				<node label="GeometryController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/geometry/GeometryController.as.html"/>
+				<node label="GeometryFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/geometry/GeometryFactory.as.html"/>
+				<node label="GeometryPropertyFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/geometry/GeometryPropertyFactory.as.html"/>
+				<node label="GeometryType.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/geometry/GeometryType.as.html"/>
+			</node>
+			<node label="awaybuilder.interfaces" icon="packageIcon" expanded="true">
+				<node label="IAssetContainer.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/IAssetContainer.as.html"/>
+				<node label="IBuilder.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/IBuilder.as.html"/>
+				<node label="ICameraController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/ICameraController.as.html"/>
+				<node label="IGeometryController.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/IGeometryController.as.html"/>
+				<node label="IParser.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/IParser.as.html"/>
+				<node label="ISceneContainer.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/ISceneContainer.as.html"/>
+				<node label="IValueObject.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/interfaces/IValueObject.as.html"/>
+			</node>
+			<node label="awaybuilder.material" icon="packageIcon" expanded="true">
+				<node label="MaterialAttributes.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/material/MaterialAttributes.as.html"/>
+				<node label="MaterialFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/material/MaterialFactory.as.html"/>
+				<node label="MaterialPropertyFactory.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/material/MaterialPropertyFactory.as.html"/>
+				<node label="MaterialType.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/material/MaterialType.as.html"/>
+			</node>
+			<node label="awaybuilder.parsers" icon="packageIcon" expanded="true">
+				<node label="Cinema4DParser.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/parsers/Cinema4DParser.as.html"/>
+				<node label="SceneXMLParser.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/parsers/SceneXMLParser.as.html"/>
+			</node>
+			<node label="awaybuilder.utils" icon="packageIcon" expanded="true">
+				<node label="ConvertCoordinates.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/utils/ConvertCoordinates.as.html"/>
+				<node label="ConvertType.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/utils/ConvertType.as.html"/>
+				<node label="CoordinateCopy.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/utils/CoordinateCopy.as.html"/>
+				<node label="EasingClass.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/utils/EasingClass.as.html"/>
+				<node label="EasingUtil.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/utils/EasingUtil.as.html"/>
+			</node>
+			<node label="awaybuilder.vo" icon="packageIcon" expanded="true">
+				<node label="DynamicAttributeVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/DynamicAttributeVO.as.html"/>
+				<node label="GroupVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/GroupVO.as.html"/>
+				<node label="MaterialVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/MaterialVO.as.html"/>
+				<node label="SceneCameraVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/SceneCameraVO.as.html"/>
+				<node label="SceneGeometryVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/SceneGeometryVO.as.html"/>
+				<node label="SceneObjectVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/SceneObjectVO.as.html"/>
+				<node label="SceneSectionVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/SceneSectionVO.as.html"/>
+				<node label="SceneVO.as" icon="actionScriptIcon" url="source/[source path] src/awaybuilder/vo/SceneVO.as.html"/>
+			</node>
+			<node label="gs" icon="packageIcon" expanded="true">
+				<node label="OverwriteManager.as" icon="actionScriptIcon" url="source/[source path] src/gs/OverwriteManager.as.html"/>
+				<node label="TweenGroup.as" icon="actionScriptIcon" url="source/[source path] src/gs/TweenGroup.as.html"/>
+				<node label="TweenLite.as" icon="actionScriptIcon" url="source/[source path] src/gs/TweenLite.as.html"/>
+				<node label="TweenMax.as" icon="actionScriptIcon" url="source/[source path] src/gs/TweenMax.as.html"/>
+			</node>
+			<node label="gs.easing" icon="packageIcon" expanded="true">
+				<node label="Back.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Back.as.html"/>
+				<node label="Bounce.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Bounce.as.html"/>
+				<node label="Circ.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Circ.as.html"/>
+				<node label="Cubic.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Cubic.as.html"/>
+				<node label="easing_readme.txt" url="source/[source path] src/gs/easing/easing_readme.txt"/>
+				<node label="Elastic.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Elastic.as.html"/>
+				<node label="Expo.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Expo.as.html"/>
+				<node label="Linear.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Linear.as.html"/>
+				<node label="Quad.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Quad.as.html"/>
+				<node label="Quart.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Quart.as.html"/>
+				<node label="Quint.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Quint.as.html"/>
+				<node label="Sine.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Sine.as.html"/>
+				<node label="Strong.as" icon="actionScriptIcon" url="source/[source path] src/gs/easing/Strong.as.html"/>
+			</node>
+			<node label="gs.events" icon="packageIcon" expanded="true">
+				<node label="TweenEvent.as" icon="actionScriptIcon" url="source/[source path] src/gs/events/TweenEvent.as.html"/>
+			</node>
+			<node label="gs.plugins" icon="packageIcon" expanded="true">
+				<node label="AutoAlphaPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/AutoAlphaPlugin.as.html"/>
+				<node label="BevelFilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/BevelFilterPlugin.as.html"/>
+				<node label="BezierPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/BezierPlugin.as.html"/>
+				<node label="BezierThroughPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/BezierThroughPlugin.as.html"/>
+				<node label="BlurFilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/BlurFilterPlugin.as.html"/>
+				<node label="ColorMatrixFilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/ColorMatrixFilterPlugin.as.html"/>
+				<node label="ColorTransformPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/ColorTransformPlugin.as.html"/>
+				<node label="DropShadowFilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/DropShadowFilterPlugin.as.html"/>
+				<node label="EndArrayPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/EndArrayPlugin.as.html"/>
+				<node label="FastTransformPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/FastTransformPlugin.as.html"/>
+				<node label="FilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/FilterPlugin.as.html"/>
+				<node label="FrameLabelPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/FrameLabelPlugin.as.html"/>
+				<node label="FramePlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/FramePlugin.as.html"/>
+				<node label="GlowFilterPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/GlowFilterPlugin.as.html"/>
+				<node label="HexColorsPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/HexColorsPlugin.as.html"/>
+				<node label="QuaternionsPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/QuaternionsPlugin.as.html"/>
+				<node label="RemoveTintPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/RemoveTintPlugin.as.html"/>
+				<node label="RoundPropsPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/RoundPropsPlugin.as.html"/>
+				<node label="ScalePlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/ScalePlugin.as.html"/>
+				<node label="SetSizePlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/SetSizePlugin.as.html"/>
+				<node label="ShortRotationPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/ShortRotationPlugin.as.html"/>
+				<node label="TintPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/TintPlugin.as.html"/>
+				<node label="TweenPlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/TweenPlugin.as.html"/>
+				<node label="VisiblePlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/VisiblePlugin.as.html"/>
+				<node label="VolumePlugin.as" icon="actionScriptIcon" url="source/[source path] src/gs/plugins/VolumePlugin.as.html"/>
+			</node>
+			<node label="gs.utils.tween" icon="packageIcon" expanded="true">
+				<node label="ArrayTweenInfo.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/ArrayTweenInfo.as.html"/>
+				<node label="BevelFilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/BevelFilterVars.as.html"/>
+				<node label="BlurFilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/BlurFilterVars.as.html"/>
+				<node label="ColorMatrixFilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/ColorMatrixFilterVars.as.html"/>
+				<node label="ColorTransformVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/ColorTransformVars.as.html"/>
+				<node label="DropShadowFilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/DropShadowFilterVars.as.html"/>
+				<node label="FilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/FilterVars.as.html"/>
+				<node label="GlowFilterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/GlowFilterVars.as.html"/>
+				<node label="SubVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/SubVars.as.html"/>
+				<node label="TransformAroundCenterVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/TransformAroundCenterVars.as.html"/>
+				<node label="TransformAroundPointVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/TransformAroundPointVars.as.html"/>
+				<node label="TweenInfo.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/TweenInfo.as.html"/>
+				<node label="TweenLiteVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/TweenLiteVars.as.html"/>
+				<node label="TweenMaxVars.as" icon="actionScriptIcon" url="source/[source path] src/gs/utils/tween/TweenMaxVars.as.html"/>
+			</node>
+			<node label="nochump" icon="packageIcon" expanded="true">
+				<node label="lgpl.txt" url="source/[source path] src/nochump/lgpl.txt"/>
+			</node>
+			<node label="nochump.util.zip" icon="packageIcon" expanded="true">
+				<node label="CRC32.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/CRC32.as.html"/>
+				<node label="Deflater.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/Deflater.as.html"/>
+				<node label="Inflater.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/Inflater.as.html"/>
+				<node label="ZipConstants.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipConstants.as.html"/>
+				<node label="ZipEntry.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipEntry.as.html"/>
+				<node label="ZipError.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipError.as.html"/>
+				<node label="ZipErrorEvent.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipErrorEvent.as.html"/>
+				<node label="ZipEvent.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipEvent.as.html"/>
+				<node label="ZipFile.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipFile.as.html"/>
+				<node label="ZipOutput.as" icon="actionScriptIcon" url="source/[source path] src/nochump/util/zip/ZipOutput.as.html"/>
+			</node>
+			<node label="wumedia.parsers.swf" icon="packageIcon" expanded="true">
+				<node label="Color.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/Color.as.html"/>
+				<node label="Data.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/Data.as.html"/>
+				<node label="DefineFont.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/DefineFont.as.html"/>
+				<node label="DefineShape.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/DefineShape.as.html"/>
+				<node label="Edge.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/Edge.as.html"/>
+				<node label="FillStyle.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/FillStyle.as.html"/>
+				<node label="KerningRecord.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/KerningRecord.as.html"/>
+				<node label="LineStyle.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/LineStyle.as.html"/>
+				<node label="ShapeRecord.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/ShapeRecord.as.html"/>
+				<node label="SWFParser.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/SWFParser.as.html"/>
+				<node label="Tag.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/Tag.as.html"/>
+				<node label="TagTypes.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/parsers/swf/TagTypes.as.html"/>
+			</node>
+			<node label="wumedia.vector" icon="packageIcon" expanded="true">
+				<node label="VectorShapes.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/vector/VectorShapes.as.html"/>
+				<node label="VectorText.as" icon="actionScriptIcon" url="source/[source path] src/wumedia/vector/VectorText.as.html"/>
+			</node>
+		</node>
+		<node label="html-template">
+			<node label="history">
+				<node label="history.css" icon="cssIcon" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node label="historyFrame.html" icon="htmlIcon" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node label="AC_OETags.js" url="source/html-template/AC_OETags.js.txt"/>
+			<node label="index.template.html" icon="htmlIcon" url="source/html-template/index.template.html"/>
+			<node label="playerProductInstall.swf" icon="swfIcon" url="source/html-template/playerProductInstall.swf"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node selected="true" label="away3.as" icon="mxmlAppIcon" url="source/away3.as.html"/>
+			<node label="mat.png" icon="imageIcon" url="source/mat.png.html"/>
+			<node label="mate.png" icon="imageIcon" url="source/mate.png.html"/>
+			<node label="sample.dae" url="source/sample.dae"/>
+			<node label="test.dae" url="source/test.dae"/>
+		</node>
+	</nodes>
+</index>

@@ -1,0 +1,352 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Billboard.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">arcane</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">use</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptDefault_Text">arcane</span>;
+    
+     <span class="ActionScriptASDoc">/**
+     * Dispatched when the material of the billboard changes.
+     * 
+     * @eventType away3d.events.FaceEvent
+     */</span>
+    <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptMetadata">Event</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">name</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;materialchanged&quot;</span>,<span class="ActionScriptDefault_Text">type</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;away3d.events.BillboardEvent&quot;</span><span class="ActionScriptBracket/Brace">)]</span>
+    
+    <span class="ActionScriptASDoc">/**
+    * A graphics element used to represent objects that always face the camera
+    * 
+    * @see away3d.core.base.Mesh
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Billboard</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Element</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_vertex</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Vertex</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_material</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IBillboardMaterial</span>;
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_width</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_height</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_rotation</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_scaling</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_index</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_vertices</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_commands</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">billboardVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">BillboardVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BillboardVO</span><span class="ActionScriptBracket/Brace">()</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns an array of vertex objects that are used by the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">vertices</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertices</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns an array of drawing command strings that are used by the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">commands</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_commands</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the vertex of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">vertex</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Vertex</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">vertex</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Vertex</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">_vertex</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_vertex</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                  <span class="ActionScriptDefault_Text">_index</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">parents</span>.<span class="ActionScriptDefault_Text">indexOf</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+                      <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_index</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptOperator">-</span>1<span class="ActionScriptBracket/Brace">)</span>
+                          <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">parents</span>.<span class="ActionScriptDefault_Text">splice</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_index</span>, 1<span class="ActionScriptBracket/Brace">)</span>;
+              <span class="ActionScriptBracket/Brace">}</span>
+              
+            <span class="ActionScriptDefault_Text">_commands</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">command</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;M&quot;</span>;
+            <span class="ActionScriptDefault_Text">_vertices</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_vertex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">vertex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_vertex</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">parents</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+              <span class="ActionScriptDefault_Text">vertexDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the x coordinate of the billboard relative to the local coordinates of the parent &lt;code&gt;Mesh&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">x</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isNaN</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;isNaN(x)&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;x == Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;x == -Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the y coordinate of the billboard relative to the local coordinates of the parent &lt;code&gt;Mesh&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">y</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isNaN</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;isNaN(y)&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;y == Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;y == -Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the z coordinate of the billboard relative to the local coordinates of the parent &lt;code&gt;Mesh&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">z</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isNaN</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;isNaN(z)&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;z == Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">Infinity</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScriptDefault_Text">warning</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;z == -Infinity&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the material of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">material</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IBillboardMaterial</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_material</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">material</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IBillboardMaterial</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_material</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_material</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">parent</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">parent</span>.<span class="ActionScriptDefault_Text">removeMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>, <span class="ActionScriptDefault_Text">_material</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">_material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_material</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">parent</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">parent</span>.<span class="ActionScriptDefault_Text">addMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>, <span class="ActionScriptDefault_Text">_material</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the width of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">width</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_width</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">width</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_width</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+
+            <span class="ActionScriptDefault_Text">_width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptDefault_Text">notifyMappingChange</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the height of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">height</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_width</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">height</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_height</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptDefault_Text">_height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptDefault_Text">notifyMappingChange</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the scaling of the billboard when an &lt;code&gt;IUVMaterial&lt;/code&gt; is used.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">scaling</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_scaling</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">scaling</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_scaling</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptDefault_Text">_scaling</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">scaling</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptDefault_Text">notifyMappingChange</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the rotation of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">rotation</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_rotation</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">rotation</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_rotation</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptDefault_Text">_rotation</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">rotation</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptDefault_Text">notifyMappingChange</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the squared bounding radius of the billboard.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">radius2</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the maximum x value of the segment
+         * 
+         * @see        away3d.core.base.Vertex#x
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">maxX</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_x</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the minimum x value of the face
+         * 
+         * @see        away3d.core.base.Vertex#x
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">minX</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_x</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the maximum y value of the segment
+         * 
+         * @see        away3d.core.base.Vertex#y
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">maxY</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_y</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the minimum y value of the face
+         * 
+         * @see        away3d.core.base.Vertex#y
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">minY</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_y</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the maximum z value of the segment
+         * 
+         * @see        away3d.core.base.Vertex#z
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">maxZ</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Returns the minimum y value of the face
+         * 
+         * @see        away3d.core.base.Vertex#y
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">override</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">minZ</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_vertex</span>.<span class="ActionScriptDefault_Text">_z</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Creates a new &lt;code&gt;Billboard&lt;/code&gt; object.
+         *
+         * @param    vertex                    The vertex object of the billboard
+         * @param    material    [optional]    The material used by the billboard to render
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Billboard</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">vertex</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Vertex</span>, <span class="ActionScriptDefault_Text">material</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IBillboardMaterial</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">width</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 10, <span class="ActionScriptDefault_Text">height</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 10, <span class="ActionScriptDefault_Text">rotation</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0, <span class="ActionScriptDefault_Text">scaling</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1<span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">vertex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vertex</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">material</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">width</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">height</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">rotation</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">rotation</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">scaling</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">scaling</span>;
+            
+            <span class="ActionScriptDefault_Text">billboardVO</span>.<span class="ActionScriptDefault_Text">billboard</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>;
+            
+            <span class="ActionScriptDefault_Text">vertexDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

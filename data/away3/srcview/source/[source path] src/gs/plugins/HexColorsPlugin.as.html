@@ -1,0 +1,114 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>HexColorsPlugin.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+VERSION: 1.01
+DATE: 2/5/2009
+ACTIONSCRIPT VERSION: 3.0 (AS2 version is also available)
+UPDATES &amp; MORE DETAILED DOCUMENTATION AT: http://www.TweenMax.com
+DESCRIPTION:
+    Although hex colors are technically numbers, if you try to tween them conventionally, 
+    you&apos;ll notice that they don&apos;t tween smoothly. To tween them properly, the red, green, and 
+    blue components must be extracted and tweened independently. The HexColorsPlugin makes it easy. 
+    To tween a property of your object that&apos;s a hex color to another hex color, just pass a hexColors 
+    Object with properties named the same as your object&apos;s hex color properties. For example, 
+    if myObject has a &quot;myHexColor&quot; property that you&apos;d like to tween to red (0xFF0000) over the 
+    course of 2 seconds, you&apos;d do:
+        
+        TweenMax.to(myObject, 2, {hexColors:{myHexColor:0xFF0000}});
+        
+    You can pass in any number of hexColor properties.
+    
+USAGE:
+    import gs.*;
+    import gs.plugins.*;
+    TweenPlugin.activate([HexColorsPlugin]); //only do this once in your SWF to activate the plugin in TweenLite (it is already activated in TweenMax by default)
+    
+    TweenLite.to(myObject, 2, {hexColors:{myHexColor:0xFF0000}});
+    
+    or if you just want to tween a color and apply it somewhere on every frame, you could do:
+    
+    var myColor:Object = {hex:0xFF0000};
+    TweenLite.to(myColor, 2, {hexColors:{hex:0x0000FF}, onUpdate:applyColor});
+    function applyColor():void {
+        mc.graphics.clear();
+        mc.graphics.beginFill(myColor.hex, 1);
+        mc.graphics.drawRect(0, 0, 100, 100);
+        mc.graphics.endFill();        
+    }
+    
+    
+BYTES ADDED TO SWF: 389 (not including dependencies)
+
+AUTHOR: Jack Doyle, jack@greensock.com
+Copyright 2009, GreenSock. All rights reserved. This work is subject to the terms in http://www.greensock.com/terms_of_use.html or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
+*/</span>
+
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">plugins</span> <span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">HexColorsPlugin</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TweenPlugin</span> <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VERSION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.01;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">API</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.0; <span class="ActionScriptComment">//If the API/Framework for plugins changes in the future, this number helps determine compatibility
+</span>        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_colors</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">HexColorsPlugin</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propName</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;hexColors&quot;</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[]</span>;
+            <span class="ActionScriptDefault_Text">_colors</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onInitTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>, <span class="ActionScriptDefault_Text">$value</span><span class="ActionScriptOperator">:*</span>, <span class="ActionScriptDefault_Text">$tween</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TweenLite</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">p</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">$value</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">initColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span>, <span class="ActionScriptDefault_Text">p</span>, <span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">p</span><span class="ActionScriptBracket/Brace">])</span>, <span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$value</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">p</span><span class="ActionScriptBracket/Brace">]))</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>, <span class="ActionScriptDefault_Text">$propName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">$start</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>, <span class="ActionScriptDefault_Text">$end</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$start</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">$end</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">r</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$start</span> <span class="ActionScriptOperator">&gt;&gt;</span> 16;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">g</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$start</span> <span class="ActionScriptOperator">&gt;&gt;</span> 8<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&amp;</span> 0<span class="ActionScriptDefault_Text">xff</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">b</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$start</span> <span class="ActionScriptOperator">&amp;</span> 0<span class="ActionScriptDefault_Text">xff</span>;
+                <span class="ActionScriptDefault_Text">_colors</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">_colors</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">$target</span>, 
+                                           <span class="ActionScriptDefault_Text">$propName</span>, 
+                                           <span class="ActionScriptDefault_Text">r</span>,
+                                           <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$end</span> <span class="ActionScriptOperator">&gt;&gt;</span> 16<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">r</span>,
+                                           <span class="ActionScriptDefault_Text">g</span>,
+                                           <span class="ActionScriptBracket/Brace">((</span><span class="ActionScriptDefault_Text">$end</span> <span class="ActionScriptOperator">&gt;&gt;</span> 8<span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&amp;</span> 0<span class="ActionScriptDefault_Text">xff</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">g</span>,
+                                           <span class="ActionScriptDefault_Text">b</span>,
+                                           <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$end</span> <span class="ActionScriptOperator">&amp;</span> 0<span class="ActionScriptDefault_Text">xff</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">b</span><span class="ActionScriptBracket/Brace">]</span>;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">overwriteProps</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$propName</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">killProps</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_colors</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">_colors</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">][</span>1<span class="ActionScriptBracket/Brace">]]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">undefined</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">_colors</span>.<span class="ActionScriptDefault_Text">splice</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span>, 1<span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">killProps</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$lookup</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>    
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">changeFactor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>, <span class="ActionScriptDefault_Text">a</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_colors</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">a</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_colors</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+                <span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">][</span><span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>1<span class="ActionScriptBracket/Brace">]]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">((</span><span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>2<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>3<span class="ActionScriptBracket/Brace">]))</span> <span class="ActionScriptOperator">&lt;&lt;</span> 16 <span class="ActionScriptOperator">|</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>4<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>5<span class="ActionScriptBracket/Brace">]))</span> <span class="ActionScriptOperator">&lt;&lt;</span> 8 <span class="ActionScriptOperator">|</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>6<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">a</span><span class="ActionScriptBracket/Brace">[</span>7<span class="ActionScriptBracket/Brace">])))</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

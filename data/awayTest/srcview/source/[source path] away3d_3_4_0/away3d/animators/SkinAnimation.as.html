@@ -1,0 +1,93 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SkinAnimation.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">animators</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">animators</span>.<span class="ActionScriptDefault_Text">skin</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptDefault_Text">ObjectContainer3D</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">SkinAnimation</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMeshAnimation</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_channels</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines wether the animation will loop
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loop</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the total length of the animation in seconds
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">length</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Defines the start of the animation in seconds
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">start</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">SkinAnimation</span><span class="ActionScriptBracket/Brace">()</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">Debug</span>.<span class="ActionScripttrace">trace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot; + SkinAnimation&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">_channels</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[]</span>;
+            <span class="ActionScriptDefault_Text">loop</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">=</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Updates all channels in the animation with the given time in seconds.
+         * 
+         * @param    time                        Defines the time in seconds of the playhead of the animation.
+         * @param    interpolate        [optional]    Defines whether the animation interpolates between channel points Defaults to true.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">update</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">interpolate</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">loop</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">start</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">%</span> <span class="ActionScriptDefault_Text">length</span>;
+                <span class="ActionScriptBracket/Brace">}</span><span class="ActionScriptReserved">else</span><span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">length</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">start</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">loop</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">start</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">%</span> <span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">length</span>;
+                <span class="ActionScriptBracket/Brace">}</span><span class="ActionScriptReserved">else</span><span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">time</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">start</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">channel</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Channel</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">_channels</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">channel</span>.<span class="ActionScriptDefault_Text">update</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">time</span>, <span class="ActionScriptDefault_Text">interpolate</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">clone</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">object</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ObjectContainer3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMeshAnimation</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">skinAnimation</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">SkinAnimation</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SkinAnimation</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptDefault_Text">skinAnimation</span>.<span class="ActionScriptDefault_Text">loop</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">loop</span>;
+            <span class="ActionScriptDefault_Text">skinAnimation</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">length</span>;
+            <span class="ActionScriptDefault_Text">skinAnimation</span>.<span class="ActionScriptDefault_Text">start</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">start</span>;
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">channel</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Channel</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">_channels</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">skinAnimation</span>.<span class="ActionScriptDefault_Text">appendChannel</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">channel</span>.<span class="ActionScriptDefault_Text">clone</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">object</span><span class="ActionScriptBracket/Brace">))</span>;
+                
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">skinAnimation</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Adds an animation channel to the animation timeline.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">appendChannel</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">channel</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Channel</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_channels</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">channel</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

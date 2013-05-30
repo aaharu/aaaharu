@@ -1,0 +1,188 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>GeometryFactory.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">geometry</span>
+<span class="ActionScriptBracket/Brace">{</span>    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>.<span class="ActionScriptDefault_Text">Mesh</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>.<span class="ActionScriptDefault_Text">ITriangleMaterial</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Cone</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Cube</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Cylinder</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Plane</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Sphere</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">Torus</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">primitives</span>.<span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptDefault_Text">CubeMaterialsData</span>;        <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">DynamicAttributeVO</span>;    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">SceneGeometryVO</span>;
+    
+    
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">GeometryFactory</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> ;
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">propertyFactory</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">GeometryPropertyFactory</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_precision</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> ;
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">GeometryFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">GeometryPropertyFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+                <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// Public Methods
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">DynamicAttributeVO</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">s</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> ;
+            
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span>.<span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">COLLADA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">CONE</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cone</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Cone</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Cone</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">cone</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cone</span>.<span class="ActionScriptDefault_Text">radius</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cone</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">cone</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">CUBE</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cube</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Cube</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Cube</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">materialsData</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">CubeMaterialsData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">CubeMaterialsData</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">back</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">bottom</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">front</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">left</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">right</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">materialsData</span>.<span class="ActionScriptDefault_Text">top</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">cube</span>.<span class="ActionScriptDefault_Text">depth</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cube</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cube</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cube</span>.<span class="ActionScriptDefault_Text">cubeMaterials</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">materialsData</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">cube</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">CYLINDER</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cylinder</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Cylinder</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Cylinder</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">cylinder</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cylinder</span>.<span class="ActionScriptDefault_Text">radius</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">cylinder</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">cylinder</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">PLANE</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">plane</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Plane</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Plane</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFileBack</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">back</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialBack</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">plane</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">SPHERE</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sphere</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Sphere</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Sphere</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">sphere</span>.<span class="ActionScriptDefault_Text">radius</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">sphere</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">sphere</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">TORUS</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">torus</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Torus</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Torus</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">torus</span>.<span class="ActionScriptDefault_Text">radius</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">torus</span>.<span class="ActionScriptDefault_Text">tube</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+                    <span class="ActionScriptDefault_Text">torus</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">torus</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">buildDefault</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">geometryType</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">attribute</span>.<span class="ActionScriptDefault_Text">value</span> ;
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">vo</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">buildDefault</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">s</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> ;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">plane</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Plane</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Plane</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            
+            <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+            <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">s</span> ;
+            <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">bothsides</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+            <span class="ActionScriptDefault_Text">plane</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ITriangleMaterial</span> ;
+            
+            <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">plane</span> ;
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">vo</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// Getters and Setters
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_precision</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propertyFactory</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_precision</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span><span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

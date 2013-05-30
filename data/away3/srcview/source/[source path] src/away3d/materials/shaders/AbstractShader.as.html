@@ -1,0 +1,292 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>AbstractShader.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>.<span class="ActionScriptDefault_Text">shaders</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">arcane</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">draw</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">light</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">math</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">render</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;    
+    
+    <span class="ActionScriptReserved">use</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptDefault_Text">arcane</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * Base class for shaders.
+    * Not intended for direct use - use one of the shading materials in the materials package.
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">AbstractShader</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">EventDispatcher</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">ILayerMaterial</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_id</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_materialDirty</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_materialupdated</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MaterialEvent</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_faceDictionary</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Dictionary</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Dictionary</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_sprite</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Sprite</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_shape</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Shape</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri0x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri0y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri1x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri1y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri2x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">eTri2y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_s</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Shape</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Shape</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_graphics</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Graphics</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_bitmapRect</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Rectangle</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_source</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Mesh</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_session</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AbstractRenderSession</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">View3D</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_face</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Face</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_faceVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceVO</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_lights</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ILightConsumer</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_parentFaceMaterialVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_n0</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_n1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_n2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_dict</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Dictionary</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ambient</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AmbientLight</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">directional</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DirectionalLight</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_faceMaterialVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_normal0</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_normal1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_normal2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Number3D</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_mapping</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Matrix</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Matrix</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyMaterialUpdate</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_materialDirty</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">hasEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span><span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_materialupdated</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">_materialupdated</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MaterialEvent</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            <span class="ActionScriptDefault_Text">dispatchEvent</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_materialupdated</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptASDoc">/** @private */</span>
+        <span class="ActionScriptDefault_Text">arcane</span> <span class="ActionScriptReserved">final</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">contains</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v0x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">v0y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">v1x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">v1y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">v2x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">v2y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>   
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v0x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v1y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">v1x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v0y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v1y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v0y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptOperator">-</span>0.001<span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v0x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v2y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v0y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v2y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">v2x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v0y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptOperator">-</span>0.001<span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v2y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v1y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">v1x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">v2y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">v2x</span><span class="ActionScriptOperator">*</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">v1y</span> <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">y</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptOperator">-</span>0.001<span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+        * Instance of the Init object used to hold and parse default property values
+        * specified by the initialiser object in the 3d object constructor.
+        */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ini</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Init</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Renders the shader to the specified face.
+        * 
+        * @param    face    The face object being rendered.
+        */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderShader</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;Not implemented&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Determines if the shader bitmap is smoothed (bilinearly filtered) when drawn to screen
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">smooth</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Determines if faces with the shader applied are drawn with outlines
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">debug</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+        
+        <span class="ActionScriptASDoc">/**
+        * Defines a blendMode value for the shader bitmap.
+        */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">blendMode</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">visible</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">id</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_id</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Creates a new &lt;code&gt;AbstractShader&lt;/code&gt; object.
+         * 
+         * @param    init    [optional]    An initialisation object for specifying default instance properties.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">AbstractShader</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">init</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">ini</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Init</span>.<span class="ActionScriptDefault_Text">parse</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">init</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">smooth</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ini</span>.<span class="ActionScriptDefault_Text">getBoolean</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;smooth&quot;</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">debug</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ini</span>.<span class="ActionScriptDefault_Text">getBoolean</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;debug&quot;</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">blendMode</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ini</span>.<span class="ActionScriptDefault_Text">getString</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;blendMode&quot;</span>, <span class="ActionScriptDefault_Text">BlendMode</span>.<span class="ActionScriptDefault_Text">NORMAL</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">//_id = 
+</span>        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">updateMaterial</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">source</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object3D</span>, <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">View3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;Not implemented&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderLayer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span>, <span class="ActionScriptDefault_Text">layer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Sprite</span>, <span class="ActionScriptDefault_Text">level</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_source</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">source</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Mesh</span>;
+            <span class="ActionScriptDefault_Text">_session</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_source</span>.<span class="ActionScriptDefault_Text">session</span>;
+            <span class="ActionScriptDefault_Text">_view</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">view</span>;
+            <span class="ActionScriptDefault_Text">_faceVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">faceVO</span>;
+            <span class="ActionScriptDefault_Text">_face</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_faceVO</span>.<span class="ActionScriptDefault_Text">face</span>;
+            <span class="ActionScriptDefault_Text">_lights</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">source</span>.<span class="ActionScriptDefault_Text">lightarray</span>;
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">level</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">renderBitmapLayer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DrawTriangle</span>, <span class="ActionScriptDefault_Text">containerRect</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Rectangle</span>, <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_source</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">source</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Mesh</span>;
+            <span class="ActionScriptDefault_Text">_session</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_source</span>.<span class="ActionScriptDefault_Text">session</span>;
+            <span class="ActionScriptDefault_Text">_view</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">view</span>;
+            <span class="ActionScriptDefault_Text">_faceVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">tri</span>.<span class="ActionScriptDefault_Text">faceVO</span>;
+            <span class="ActionScriptDefault_Text">_face</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_faceVO</span>.<span class="ActionScriptDefault_Text">face</span>;
+            <span class="ActionScriptDefault_Text">_parentFaceMaterialVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>;
+            
+            <span class="ActionScriptDefault_Text">_faceMaterialVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">getFaceMaterialVO</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_faceVO</span>, <span class="ActionScriptDefault_Text">_source</span>, <span class="ActionScriptDefault_Text">_view</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">//pass on inverse texturemapping
+</span>            <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">invtexturemapping</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">invtexturemapping</span>;
+            
+            <span class="ActionScriptComment">//pass on resize value
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">resized</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">resized</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">resized</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptComment">//check to see if rendering can be skipped
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">updated</span> <span class="ActionScriptOperator">||</span> <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">invalidated</span> <span class="ActionScriptOperator">||</span> <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">updated</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">updated</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                
+                <span class="ActionScriptComment">//retrieve the bitmapRect
+</span>                <span class="ActionScriptDefault_Text">_bitmapRect</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_faceVO</span>.<span class="ActionScriptDefault_Text">bitmapRect</span>;
+                
+                <span class="ActionScriptComment">//reset booleans
+</span>                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">invalidated</span><span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">invalidated</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                <span class="ActionScriptReserved">else</span> 
+                    <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">updated</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+                
+                <span class="ActionScriptComment">//store a clone
+</span>                <span class="ActionScriptDefault_Text">_faceMaterialVO</span>.<span class="ActionScriptDefault_Text">bitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">parentFaceMaterialVO</span>.<span class="ActionScriptDefault_Text">bitmap</span>;
+                
+                <span class="ActionScriptComment">//draw shader
+</span>                <span class="ActionScriptDefault_Text">renderShader</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">tri</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_faceMaterialVO</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getFaceMaterialVO</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">faceVO</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceVO</span>, <span class="ActionScriptDefault_Text">source</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">View3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaceMaterialVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">source</span>;<span class="ActionScriptDefault_Text">view</span>;<span class="ActionScriptComment">//TODO : FDT Warning
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">((</span><span class="ActionScriptDefault_Text">_faceMaterialVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_faceDictionary</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">faceVO</span><span class="ActionScriptBracket/Brace">]))</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_faceMaterialVO</span>;
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_faceDictionary</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">faceVO</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FaceMaterialVO</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addOnMaterialUpdate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptDefault_Text">listener</span>, <span class="ActionScriptReserved">false</span>, 0, <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * @inheritDoc
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeOnMaterialUpdate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MaterialEvent</span>.<span class="ActionScriptDefault_Text">MATERIAL_UPDATED</span>, <span class="ActionScriptDefault_Text">listener</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

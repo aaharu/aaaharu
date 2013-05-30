@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>html のソース</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+			<node label="away3d3.5.swc" url="source/libs/away3d3.5.swc"/>
+			<node label="frocessing-0.6.1.swc" url="source/libs/frocessing-0.6.1.swc"/>
+			<node label="keycommand.swc" url="source/libs/keycommand.swc"/>
+			<node label="urulab.swc" url="source/libs/urulab.swc"/>
+		</node>
+		<node label="src">
+			<node label="image">
+				<node icon="imageIcon" label="model0.gif" url="source/image/model0.gif.html"/>
+				<node icon="imageIcon" label="model1.gif" url="source/image/model1.gif.html"/>
+				<node icon="imageIcon" label="model2.gif" url="source/image/model2.gif.html"/>
+				<node icon="imageIcon" label="model3.gif" url="source/image/model3.gif.html"/>
+				<node icon="imageIcon" label="model4.gif" url="source/image/model4.gif.html"/>
+				<node icon="imageIcon" label="rankaku1.png" url="source/image/rankaku1.png.html"/>
+				<node label="Thumbs.db" url="source/image/Thumbs.db"/>
+			</node>
+			<node label="model">
+				<node label="model0.dae" url="source/model/model0.dae"/>
+				<node label="model1.dae" url="source/model/model1.dae"/>
+				<node label="model2.dae" url="source/model/model2.dae"/>
+				<node label="model3.dae" url="source/model/model3.dae"/>
+				<node label="model4.dae" url="source/model/model4.dae"/>
+			</node>
+			<node icon="mxmlIcon" label="AboutUrulab.mxml" url="source/AboutUrulab.mxml.html"/>
+			<node icon="mxmlAppIcon" selected="true" label="Main.mxml" url="source/Main.mxml.html"/>
+			<node icon="mxmlIcon" label="MyPopUpSkin.mxml" url="source/MyPopUpSkin.mxml.html"/>
+			<node icon="actionScriptIcon" label="SetData.as" url="source/SetData.as.html"/>
+			<node label="sinpi5.mp3" url="source/sinpi5.mp3"/>
+		</node>
+	</nodes>
+	<zipfile label="ソースのダウンロード (ZIP、2047K)" url="html.zip">
+	</zipfile>
+	<sdklink label="Flex SDK をダウンロード" url="http://www.adobe.com/go/flex4_sdk_download_ja_JP">
+	</sdklink>
+</index>

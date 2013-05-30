@@ -1,0 +1,583 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SceneBuilder.as</title>
+<link rel="stylesheet" type="text/css" href="../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">awaybuilder</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Loader3DEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">loaders</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">loaders</span>.<span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">loaders</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">materials</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">abstracts</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">camera</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">geometry</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">material</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">SceneBuilder</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">AbstractBuilder</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IBuilder</span> , <span class="ActionScriptDefault_Text">IAssetContainer</span> , <span class="ActionScriptDefault_Text">ISceneContainer</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> ;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> ;
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">View3D</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cameras</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sections</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mainSections</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cameraFactory</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">CameraFactory</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">materialFactory</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MaterialFactory</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometryFactory</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">GeometryFactory</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">bitmapDataAssets</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">displayObjectAssets</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">colladaAssets</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">]</span> ;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">materialPropertyFactory</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MaterialPropertyFactory</span> ;
+
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">SceneBuilder</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">materialPropertyFactory</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MaterialPropertyFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// Public Methods
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">View3D</span> , <span class="ActionScriptDefault_Text">sections</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">view</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">mainSections</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">sections</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createCameraFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createGeometryFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createMaterialFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createSections</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyValues</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">dispatchEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Event</span>.<span class="ActionScriptDefault_Text">COMPLETE</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addBitmapDataAsset</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> , <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">bitmapDataAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">data</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addDisplayObjectAsset</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> , <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">DisplayObject</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">displayObjectAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">data</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addColladaAsset</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> , <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">colladaAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">data</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getCameras</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameras</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getGeometry</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometry</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getSections</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">sections</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getSectionById</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> ;
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">sections</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">section</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span> <span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;section with id [&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot;] not found&quot;</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">result</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getCameraById</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneCameraVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneCameraVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameras</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">vo</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameras</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;no cameras available&quot;</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">else</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;camera with id [&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot;] not found&quot;</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getGeometryById</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">vo</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometry</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;no geometry available&quot;</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">else</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">throw</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Error</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;geometry with id [&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot;] not found&quot;</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// Protected Methods
+</span>        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">////////////////////////////////////////////////////////////////////////////////
+</span>        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createCameraFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameraFactory</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">CameraFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createGeometryFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometryFactory</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">GeometryFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometryFactory</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometryFactory</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createMaterialFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">materialFactory</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MaterialFactory</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createSections</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">mainSections</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">enabled</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createSection</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createSection</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">enabled</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">scene</span>.<span class="ActionScriptDefault_Text">addChild</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">pivot</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createCameras</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createGeometry</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createSubSections</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">sections</span>.<span class="ActionScriptDefault_Text">push</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createSubSections</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">subSection</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">sections</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createSection</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">subSection</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyValues</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">dispatchEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SceneEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SceneEvent</span>.<span class="ActionScriptDefault_Text">RENDER</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometryVO</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">geometryType</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">COLLADA</span> <span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptReserved">break</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                    <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyPosition</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">mesh</span> , <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyMeshRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">mesh</span> , <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Mesh</span> , <span class="ActionScriptDefault_Text">geometryVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptComment">// FIXME: Implement group position and scale conversion.
+</span>            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">sectionVO</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">mainSections</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyPosition</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">pivot</span> , <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyGroupRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">pivot</span> , <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyPivotScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">pivot</span> , <span class="ActionScriptDefault_Text">sectionVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cameraVO</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneCameraVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameras</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">/* FIXME: Camera to be relative to section pivot coordinates.
+                this.applyPosition ( cameraVO.positionContainer , cameraVO.values ) ;
+                this.applyMeshRotation ( cameraVO.positionContainer , cameraVO.values ) ;
+                
+                cameraVO.camera.transform = cameraVO.positionContainer.sceneTransform ;
+                */</span>
+                
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyPosition</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">cameraVO</span>.<span class="ActionScriptDefault_Text">camera</span> , <span class="ActionScriptDefault_Text">cameraVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyCameraRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">cameraVO</span>.<span class="ActionScriptDefault_Text">camera</span> , <span class="ActionScriptDefault_Text">cameraVO</span>.<span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">dispatchEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SceneEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SceneEvent</span>.<span class="ActionScriptDefault_Text">RENDER</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyColladaValues</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">flipTexture</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">flipTexture</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">smoothTexture</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">smoothMaterials</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">materialLibrary</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyPosition</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyColladaRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyColladaScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> , <span class="ActionScriptDefault_Text">values</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">flipTexture</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">handle</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometryData</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">GeometryData</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">handle</span>.<span class="ActionScriptDefault_Text">geometryLibrary</span>.<span class="ActionScriptDefault_Text">getGeometryArray</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">uv</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">UV</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">geometryData</span>.<span class="ActionScriptDefault_Text">uvs</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">uv</span>.<span class="ActionScriptDefault_Text">u</span> <span class="ActionScriptOperator">=</span> 1 <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">uv</span>.<span class="ActionScriptDefault_Text">u</span> ;
+                    <span class="ActionScriptDefault_Text">uv</span>.<span class="ActionScriptDefault_Text">v</span> <span class="ActionScriptOperator">=</span> 1 <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">uv</span>.<span class="ActionScriptDefault_Text">v</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">smoothMaterials</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">materialLibrary</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MaterialLibrary</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">materialData</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MaterialData</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">materialLibrary</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">materialData</span>.<span class="ActionScriptDefault_Text">material</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">MaterialAttributes</span>.<span class="ActionScriptDefault_Text">SMOOTH</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createCameras</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneCameraVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">cameras</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">/* FIXME: Camera to be relative to section pivot coordinates.
+                vo.parentSection = section ;
+                vo.positionContainer = new ObjectContainer3D ( ) ;
+                
+                section.pivot.addChild ( vo.positionContainer ) ;
+                */</span>
+                
+                <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameraFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">cameras</span>.<span class="ActionScriptDefault_Text">push</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createGeometry</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">useDefaultGeometry</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+                
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">createMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">attribute</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">DynamicAttributeVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">geometry</span>.<span class="ActionScriptDefault_Text">geometryExtras</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span>.<span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryAttributes</span>.<span class="ActionScriptDefault_Text">CLASS</span> <span class="ActionScriptOperator">:</span>
+                        <span class="ActionScriptBracket/Brace">{</span>
+                            <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometryFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span> , <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                            <span class="ActionScriptDefault_Text">useDefaultGeometry</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span> ;
+                            <span class="ActionScriptReserved">break</span> ;
+                        <span class="ActionScriptBracket/Brace">}</span>
+                    <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptBracket/Brace">}</span>
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">useDefaultGeometry</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">geometryFactory</span>.<span class="ActionScriptDefault_Text">buildDefault</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyExternalAssets</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> , <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">useDefaultMaterial</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+            
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">attribute</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">DynamicAttributeVO</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">geometry</span>.<span class="ActionScriptDefault_Text">materialExtras</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span>.<span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">MaterialAttributes</span>.<span class="ActionScriptDefault_Text">CLASS</span> <span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">materialFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">attribute</span> , <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptDefault_Text">useDefaultMaterial</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span> ;
+                        <span class="ActionScriptReserved">break</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">useDefaultMaterial</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">materialFactory</span>.<span class="ActionScriptDefault_Text">buildDefault</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometry</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyExternalAssets</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">section</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneSectionVO</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">applySpecialProperties</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span> ;
+            
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialType</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">MaterialType</span>.<span class="ActionScriptDefault_Text">BITMAP_MATERIAL</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">bitmapData</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">bitmapDataAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetClass</span> <span class="ActionScriptBracket/Brace">]</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">bitmapData</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">bitmapData</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptDefault_Text">Mesh</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">BitmapMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">applySpecialProperties</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">MaterialType</span>.<span class="ActionScriptDefault_Text">BITMAP_FILE_MATERIAL</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapFileMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFile</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptDefault_Text">Mesh</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">BitmapFileMaterial</span> ;
+                    
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFileBack</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialBack</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapFileMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFileBack</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptDefault_Text">Mesh</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">back</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialBack</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">BitmapFileMaterial</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                    
+                    <span class="ActionScriptDefault_Text">applySpecialProperties</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">MaterialType</span>.<span class="ActionScriptDefault_Text">MOVIE_MATERIAL</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">movieClip</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MovieClip</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">displayObjectAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetClass</span> <span class="ActionScriptBracket/Brace">]</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">movieClip</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MovieMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">movieClip</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptDefault_Text">Mesh</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">MovieMaterial</span> ;
+                    <span class="ActionScriptDefault_Text">applySpecialProperties</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span> ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">MaterialType</span>.<span class="ActionScriptDefault_Text">PHONG_BITMAP_MATERIAL</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">phongBitmapData</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">bitmapDataAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetClass</span> <span class="ActionScriptBracket/Brace">]</span> ;
+                    
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialData</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">phongBitmapData</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PhongBitmapMaterial</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">phongBitmapData</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptComment">// TODO: Implement across all materials.
+</span>                    <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialType</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">materialType</span> ;
+                    <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">materialPropertyFactory</span>.<span class="ActionScriptDefault_Text">build</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptDefault_Text">Mesh</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">PhongBitmapMaterial</span> ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">applySpecialProperties</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">MaterialAttributes</span>.<span class="ActionScriptDefault_Text">SMOOTH</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">smooth</span> ;
+                <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">material</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">MaterialAttributes</span>.<span class="ActionScriptDefault_Text">PRECISION</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">precision</span> ;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">geometryType</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">GeometryType</span>.<span class="ActionScriptDefault_Text">COLLADA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetClass</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">xml</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">colladaAssets</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetClass</span> <span class="ActionScriptBracket/Brace">]</span> ;
+                        <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">container</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ObjectContainer3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Collada</span>.<span class="ActionScriptDefault_Text">parse</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">xml</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        
+                        <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">container</span> ;
+                        <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">pivot</span>.<span class="ActionScriptDefault_Text">addChild</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">container</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyColladaValues</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">container</span> , <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">values</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                    <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFile</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptBracket/Brace">{</span>
+                        <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loader</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Loader3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Collada</span>.<span class="ActionScriptDefault_Text">load</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">assetFile</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        
+                        <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">extra</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span> ;
+                        <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">addOnSuccess</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">onColladaLoadSuccess</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                        <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">pivot</span>.<span class="ActionScriptDefault_Text">addChild</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loader</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                    <span class="ActionScriptBracket/Brace">}</span>
+                    
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">enabled</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">section</span>.<span class="ActionScriptDefault_Text">pivot</span>.<span class="ActionScriptDefault_Text">addChild</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptBracket/Brace">)</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">geometry</span>.<span class="ActionScriptDefault_Text">push</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onColladaLoadSuccess</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Loader3DEvent</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loader</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Loader3D</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">loader</span> ;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">extra</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> ;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">geometryEvent</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">GeometryEvent</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">GeometryEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">GeometryEvent</span>.<span class="ActionScriptDefault_Text">COLLADA_COMPLETE</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            
+            <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">mesh</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">handle</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">applyColladaValues</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">handle</span> , <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">values</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">geometryEvent</span>.<span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span> ;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">dispatchEvent</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">geometryEvent</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyPosition</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">x</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">positionX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">x</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">positionY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">y</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">z</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">positionZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">z</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyMeshRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationX</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">meshRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationX</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationY</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">meshRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationY</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationZ</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">meshRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationZ</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyGroupRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationX</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">groupRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationX</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationY</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">groupRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationY</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationZ</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">groupRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationZ</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyColladaRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationX</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">colladaRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationX</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationY</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">colladaRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationY</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationZ</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">colladaRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationZ</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyCameraRotation</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationX</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">cameraRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationX</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationY</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">cameraRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationY</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">rotationZ</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>.<span class="ActionScriptDefault_Text">cameraRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">rotationZ</span> , <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Mesh</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">scaleX</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">scaleX</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">scaleY</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">scaleY</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">scaleZ</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">scaleZ</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyPivotScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// FIXME: Use custom geometry scaling property instead of geometry x scale value?
+</span>            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">scaleX</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">applyColladaScale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Object3D</span> , <span class="ActionScriptDefault_Text">values</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneObjectVO</span> , <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">SceneGeometryVO</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">multiplier</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptOperator">=</span> 1 ;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">values</span>.<span class="ActionScriptDefault_Text">scaleX</span> ;
+            
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptComment">// NOTE: The divider is due to the Collada class having an internal scaling multiplier of 100.
+</span>                    <span class="ActionScriptDefault_Text">multiplier</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">precision</span> <span class="ActionScriptOperator">/</span> 100 ;
+                    <span class="ActionScriptReserved">break</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">colladaScale</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">colladaScale</span> ;
+            <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multiplier</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

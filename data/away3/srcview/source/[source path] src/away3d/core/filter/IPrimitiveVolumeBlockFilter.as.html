@@ -1,0 +1,34 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IPrimitiveVolumeBlockFilter.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">filter</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">cameras</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">clip</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">draw</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+    * Interface for filters that work on primitive volume blocks
+    */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IPrimitiveVolumeBlockFilter</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Applies the filter to the volume block.
+         * 
+         * @param    blocklist    The volume block tree to be filtered.
+         * @param    scene        The scene to which the volume block tree belongs.
+         * @param    camera        The camera being used in the renderer for the volume block tree
+         * @param    clip        The clipping object used in the renderer for the volume block tree&apos;s view.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">filter</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">blocklist</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">PrimitiveVolumeBlock</span>, <span class="ActionScriptDefault_Text">scene</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Scene3D</span>, <span class="ActionScriptDefault_Text">camera</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Camera3D</span>, <span class="ActionScriptDefault_Text">clip</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Clipping</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

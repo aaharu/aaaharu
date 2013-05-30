@@ -1,0 +1,68 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>FrameLabelPlugin.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+VERSION: 1.01
+DATE: 2/23/2009
+ACTIONSCRIPT VERSION: 3.0 (AS2 version is also available)
+UPDATES &amp; MORE DETAILED DOCUMENTATION AT: http://www.TweenMax.com
+DESCRIPTION:
+    Tweens a MovieClip to a particular frame label
+    
+USAGE:
+    import gs.*;
+    import gs.plugins.*;
+    TweenPlugin.activate([FrameLabelPlugin]); //only do this once in your SWF to activate the plugin in TweenLite (it is already activated in TweenMax by default)
+    
+    TweenLite.to(mc, 1, {frameLabel:&quot;myLabel&quot;});
+
+    
+BYTES ADDED TO SWF: 222 (not including dependencies)
+
+AUTHOR: Jack Doyle, jack@greensock.com
+Copyright 2009, GreenSock. All rights reserved. This work is subject to the terms in http://www.greensock.com/terms_of_use.html or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
+*/</span>
+
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">plugins</span> <span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">plugins</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">FrameLabelPlugin</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">FramePlugin</span> <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VERSION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.01;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">API</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 1.0; <span class="ActionScriptComment">//If the API/Framework for plugins changes in the future, this number helps determine compatibility
+</span>        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">FrameLabelPlugin</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">propName</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;frameLabel&quot;</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onInitTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">$target</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>, <span class="ActionScriptDefault_Text">$value</span><span class="ActionScriptOperator">:*</span>, <span class="ActionScriptDefault_Text">$tween</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TweenLite</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">$tween</span>.<span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">MovieClip</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptDefault_Text">_target</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$target</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">MovieClip</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">frame</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">currentFrame</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">labels</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">currentLabels</span>, <span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">$value</span>, <span class="ActionScriptDefault_Text">endFrame</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">currentFrame</span>, <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">labels</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">-</span> 1; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptOperator">-</span>1; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">--</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">labels</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">label</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">endFrame</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">labels</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>.<span class="ActionScriptDefault_Text">frame</span>;
+                    <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">frame</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">endFrame</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">addTween</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>, <span class="ActionScriptString">&quot;frame&quot;</span>, <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">frame</span>, <span class="ActionScriptDefault_Text">endFrame</span>, <span class="ActionScriptString">&quot;frame&quot;</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

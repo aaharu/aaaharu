@@ -1,0 +1,362 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ConvertCoordinates.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">utils</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">awaybuilder</span>.<span class="ActionScriptDefault_Text">CoordinateSystem</span>;
+    
+    
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ConvertCoordinates</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">radToDeg</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptBracket/Brace">(</span> 180 <span class="ActionScriptOperator">/</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">PI</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupPositionX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupPositionY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupPositionZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">positionX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">positionY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">AFTER_EFFECTS</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptOperator">-</span><span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">positionZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">scale</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">AFTER_EFFECTS</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">/</span> 100 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">groupRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">meshRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">meshRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">meshRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">colladaRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">colladaRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">colladaRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraPositionX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraPositionY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraPositionZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraRotationX</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraRotationY</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">MAYA</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cameraRotationZ</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> , <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">coordinateSystem</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">AFTER_EFFECTS</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CoordinateSystem</span>.<span class="ActionScriptDefault_Text">CINEMA4D</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptOperator">-</span>1 ;
+                <span class="ActionScriptBracket/Brace">}</span>
+                <span class="ActionScriptReserved">default</span> <span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">n</span> ;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

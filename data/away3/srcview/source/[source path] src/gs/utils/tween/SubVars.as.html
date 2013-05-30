@@ -1,0 +1,36 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SubVars.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+VERSION: 1.0
+DATE: 1/29/2009
+ACTIONSCRIPT VERSION: 3.0
+DESCRIPTION:
+    This class works in conjunction with the TweenLiteVars or TweenMaxVars class to grant
+    strict data typing and code hinting (in most code editors) for filter tweens. See the documentation in
+    the TweenLiteVars or TweenMaxVars for more information.
+
+
+AUTHOR: Jack Doyle, jack@greensock.com
+Copyright 2009, GreenSock. All rights reserved. This work is subject to the terms in http://www.greensock.com/terms_of_use.html or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
+*/</span>
+
+
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">gs</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptDefault_Text">tween</span> <span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">SubVars</span> <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">isTV</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">exposedVars</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">SubVars</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">exposedVars</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">{}</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

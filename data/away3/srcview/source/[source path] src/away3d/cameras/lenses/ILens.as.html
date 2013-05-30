@@ -1,0 +1,40 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ILens.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">cameras</span>.<span class="ActionScriptDefault_Text">lenses</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">containers</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">base</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">draw</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">away3d</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">math</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">ILens</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">near</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">far</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setView</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">val</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">View3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getFrustum</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">node</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object3D</span>, <span class="ActionScriptDefault_Text">viewTransform</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Frustum</span>;
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getFOV</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getZoom</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getPerspective</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">screenZ</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+        
+       <span class="ActionScriptASDoc">/**
+        * Projects the vertices to the screen space of the view.
+        */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">project</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">viewTransform</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MatrixAway3D</span>, <span class="ActionScriptDefault_Text">vertices</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>, <span class="ActionScriptDefault_Text">screenVertices</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>
