@@ -1,25 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="Author" content="aaharu" />
-		<meta name="keywords" content="aaharu" />
-		<title>404 - page not found</title>
-		<link rel="stylesheet" href="/css/common.css" type="text/css" />
-		<link rel="icon" href="/favicon.ico" type="image/png" />
-	</head>
-	<body>
-		<div id="wrapper">
-			<p>404</p>
-		</div>
-		<footer>
-			<small id="copyright">&#169; 2010-2011 aaharu</small>
-		</footer>
-{% block end %}{% endblock %}
-<script type="text/javascript">
-var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-18263572-1']);_gaq.push(['_setDomainName', '.aaharu.com']);_gaq.push(['_trackPageview']);
-(function(){var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga, s);})();
-</script>
-	</body>
-</html>
+{% extends "base.html" %}
+{% block title %}404{% endblock %}
+{% block content %}
+				<section>
+					<h1>404 - Page not found</h1>
+				</section>
+{% endblock %}
