@@ -29,5 +29,6 @@ $(function() {
             })
             .loop();
     };
+    anim.loadingScene.removeChild(anim.loadingScene.childNodes[0]);
     anim.start();
 });
