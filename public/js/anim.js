@@ -29,6 +29,9 @@ $(function() {
             })
             .loop();
     };
+    anim.loadingScene.backgroundColor = null;
+    anim.loadingScene.width = 0;
+    anim.loadingScene.height = 0;
     anim.loadingScene.removeChild(anim.loadingScene.childNodes[0]);
     anim.start();
 });
