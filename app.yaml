@@ -6,22 +6,22 @@ threadsafe: yes
 
 handlers:
 - url: /robots\.txt
-  static_files: robots.txt
-  upload: robots\.txt
+  static_files: public/robots.txt
+  upload: public/robots\.txt
 - url: /favicon\.ico
-  static_files: img/icon.png
-  upload: img/icon\.png
+  static_files: public/img/icon.png
+  upload: public/img/icon\.png
 - url: /img
-  static_dir: img
+  static_dir: public/img
 - url: /css
-  static_dir: css
+  static_dir: public/css
 - url: /js
-  static_dir: js
+  static_dir: public/js
 - url: /data
-  static_dir: data
+  static_dir: public/data
 
 - url: /dcdata
-  static_dir: dcdata
+  static_dir: public/dcdata
 
 - url: /.*
   script: controller.application
