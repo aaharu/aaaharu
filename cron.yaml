@@ -1,4 +1,4 @@
 cron:
- - description: daily job
+ - description: heroku wakeup job
    url: /tasks/wakeup
-   schedule: every hours
+   schedule: every 1 hours
