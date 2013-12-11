@@ -1,0 +1,4 @@
+cron:
+ - description: daily job
+   url: /tasks/wakeup
+   schedule: every hours
