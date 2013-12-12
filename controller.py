@@ -7,8 +7,20 @@ from google.appengine.api import urlfetch
 
 class WakeupTask(webapp2.RequestHandler):
     def get(self):
-        urlfetch.fetch("http://komenuka.herokuapp.com/robots.txt")
-        urlfetch.fetch("http://agif.herokuapp.com/robots.txt")
+        def handle_result(rpc):
+            rpc.get_result()
+        def create_callback(rpc):
+            return lambda: handle_result(rpc)
+        urls = ("http://komenuka.herokuapp.com/robots.txt", "http://agif.herokuapp.com/robots.txt")
+        rpcs = []
+        for url in urls:
+            rpc = urlfetch.create_rpc()
+            rpc.callback = create_callback(rpc)
+            urlfetch.make_fetch_call(rpc, url)
+            rpcs.append(rpc)
+        self.response.out.write("OK")
+        for rpc in rpcs:
+            rpc.wait()
 
 application = webapp2.WSGIApplication([
     ('/', TopView),
