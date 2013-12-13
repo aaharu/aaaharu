@@ -18,9 +18,9 @@ class WakeupTask(webapp2.RequestHandler):
             rpc.callback = create_callback(rpc)
             urlfetch.make_fetch_call(rpc, url)
             rpcs.append(rpc)
-        self.response.out.write("OK")
         for rpc in rpcs:
             rpc.wait()
+        self.response.out.write("OK")
 
 application = webapp2.WSGIApplication([
     ('/', TopView),
