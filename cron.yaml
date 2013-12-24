@@ -1,4 +1,1 @@
 cron:
- - description: heroku wakeup job
-   url: /tasks/wakeup
-   schedule: every 19 minutes
