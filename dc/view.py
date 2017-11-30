@@ -11,7 +11,7 @@ class DcTopView(RequestHandler):
     def get(self):
         host = self.request.host.split(':')[0]
         if host != 'www.aaharu.com' and host != 'localhost':
-            self.redirect('//www.aaharu.com' + self.request.path_qs, permanent=True, abort=True)
+            self.redirect('https://www.aaharu.com' + self.request.path_qs, permanent=True, abort=True)
         template = jinja_environment.get_template('index.html')
         self.response.out.write(template.render())
 
@@ -19,7 +19,7 @@ class DcGenerateView(RequestHandler):
     def get(self):
         host = self.request.host.split(':')[0]
         if host != 'www.aaharu.com' and host != 'localhost':
-            self.redirect('//www.aaharu.com' + self.request.path_qs, permanent=True, abort=True)
+            self.redirect('https://www.aaharu.com' + self.request.path_qs, permanent=True, abort=True)
         self.redirect('/dc/')
 
     def post(self):
