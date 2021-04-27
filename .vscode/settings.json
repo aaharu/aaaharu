@@ -1,0 +1,40 @@
+{
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.packageManager": "npm",
+  "todo-tree.highlights.defaultHighlight": {
+    "foreground": "yellow",
+    "background": "black"
+  },
+  "todo-tree.highlights.customHighlight": {
+    "FIXME": {
+      "icon": "check",
+      "type": "line"
+    }
+  },
+  "todo-tree.filtering.excludeGlobs": [
+    "node_modules"
+  ],
+  "npm.packageManager": "npm"
+}
