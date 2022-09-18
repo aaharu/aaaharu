@@ -21,7 +21,7 @@ const Profile = (): JSX.Element => {
           <Heading>製作物</Heading>
           <UnorderedList>
             <ListItem>
-              <Link href="https://agif.herokuapp.com" isExternal>
+              <Link href="https://agif.deno.dev/" isExternal>
                 agif <ExternalLinkIcon mx="2px" />
               </Link>
             </ListItem>
