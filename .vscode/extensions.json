@@ -3,7 +3,6 @@
     // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
     "editorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
-    "gruntfuggly.todo-tree",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
   ]
 }

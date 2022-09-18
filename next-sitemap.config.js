@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://www.aaharu.com',
+  siteUrl: 'https://aaharu.com',
   outDir: 'out',
 }

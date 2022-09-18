@@ -31,14 +31,14 @@ export const Breadcrumb = ({ items }: BreadcrumbProps): JSX.Element => {
                   '@type': 'ListItem',
                   position: 1,
                   name: 'Home',
-                  item: 'https://www.aaharu.com',
+                  item: 'https://aaharu.com',
                 },
                 ...items.map((item, index) => {
                   return {
                     '@type': 'ListItem',
                     position: index + 2,
                     name: item.name,
-                    item: `https://www.aaharu.com${item.href}`,
+                    item: `https://aaharu.com${item.href}`,
                   }
                 }),
               ],
