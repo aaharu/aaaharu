@@ -23,18 +23,5 @@
     "typescriptreact"
   ],
   "eslint.packageManager": "npm",
-  "todo-tree.highlights.defaultHighlight": {
-    "foreground": "yellow",
-    "background": "black"
-  },
-  "todo-tree.highlights.customHighlight": {
-    "FIXME": {
-      "icon": "check",
-      "type": "line"
-    }
-  },
-  "todo-tree.filtering.excludeGlobs": [
-    "node_modules"
-  ],
   "npm.packageManager": "npm"
 }
